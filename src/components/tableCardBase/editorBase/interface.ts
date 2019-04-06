@@ -1,5 +1,6 @@
 import { FormComponentProps } from 'antd/lib/form';
-import { IDispatch, ITableCardBaseState } from '../../../components';
+import { IDispatch } from '../../interface/iDispatch';
+import { ITableCardBaseState } from '../modelFactory/interface';
 
 export interface IEditorBaseProps extends FormComponentProps {
   tableCardState: ITableCardBaseState;

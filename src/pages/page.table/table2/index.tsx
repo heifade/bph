@@ -8,7 +8,6 @@ import {
   ConditionItem,
   ITableCardBaseProps,
 } from '@/components/index';
-import { Button } from 'antd';
 
 interface IProps extends ITableCardBaseProps {
   location: any;
