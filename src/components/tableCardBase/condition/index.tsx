@@ -3,7 +3,7 @@ import { Form, Row, Col, Button, Icon } from 'antd';
 import styles from './styles.less';
 import { FormComponentProps } from 'antd/lib/form';
 import { IHash } from '../../interface/iHash';
-import { IConditionItem } from '../conditionItem';
+import { IConditionItem } from '../conditionItem/interface';
 
 interface IProps extends FormComponentProps {
   conditionItems: IConditionItem[];

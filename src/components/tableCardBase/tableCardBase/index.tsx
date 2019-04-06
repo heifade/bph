@@ -1,37 +1,11 @@
 import React, { PureComponent, Fragment } from 'react';
-import { IDispatch } from '../interface/iDispatch';
-import { ITableCardBaseState } from './modelFactory';
-import { IHashList } from '../interface/iHashList';
-import { ColumnProps, PaginationConfig } from 'antd/es/table';
-import { Modal, Table, Button } from 'antd';
-import { IHash } from '../interface/iHash';
+import { IHashList } from '../../interface/iHashList';
+import { PaginationConfig } from 'antd/es/table';
+import { Table } from 'antd';
+import { IHash } from '../../interface/iHash';
 import debounce from 'lodash/debounce';
-import { Condition } from './condition';
-import { IConditionItem } from './conditionItem';
-
-export interface ITableCardBaseProps {
-  loading: any;
-  dispatch: IDispatch;
-  tableCardState: ITableCardBaseState;
-  location: any;
-  tableCardConfig: ITableCardBaseConfig;
-  renderCondition?: () => IConditionItem[];
-}
-
-interface IActionButtonState {
-  visible?: boolean;
-  disabled?: boolean;
-}
-
-export interface ITableCardBaseConfig {
-  namespace: string;
-  columns: Array<ColumnProps<any>>;
-  rowKey: string;
-  addButton?: IActionButtonState;
-  deleteButton?: IActionButtonState;
-  checkBox?: boolean;
-  scroll?: { x: number };
-}
+import { Condition } from '../condition';
+import { ITableCardBaseProps } from './interface';
 
 export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<T> {
   onSearch = (condition: IHash) => {
@@ -43,29 +17,52 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       type: `${namespace}/onSearchBase`,
       payload: {
         condition,
-        pageIndex: 0,
+        pageIndex: 1,
         pageSize: 10,
       },
     });
   };
 
-  /**
-   * 打开编辑框，进行编辑。
-   */
-  onEdit = (editorData: IHash) => {
+  onDelete = (record: IHash) => {
     const {
       dispatch,
       tableCardConfig: { namespace },
     } = this.props;
     dispatch({
-      type: `${namespace}/onEditorVisibleChangedBase`,
-      payload: {
-        editorVisible: true,
-        editorData,
-        editorDoType: 'edit',
-      },
+      type: `${namespace}/onDeleteBase`,
+      payload: record,
     });
   };
+
+  onEdit = (record: IHash) => {
+    const {
+      dispatch,
+      tableCardConfig: { namespace },
+    } = this.props;
+
+    dispatch({
+      type: `${namespace}/onOpenDetailBase`,
+      payload: record,
+    });
+  };
+
+  // /**
+  //  * 打开编辑框，进行编辑。
+  //  */
+  // onEdit = (editorData: IHash) => {
+  //   const {
+  //     dispatch,
+  //     tableCardConfig: { namespace },
+  //   } = this.props;
+  //   dispatch({
+  //     type: `${namespace}/onEditorVisibleChangedBase`,
+  //     payload: {
+  //       editorVisible: true,
+  //       editorData,
+  //       editorDoType: 'edit',
+  //     },
+  //   });
+  // };
 
   onAdd = () => {
     const {
@@ -83,29 +80,6 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     dispatch({
       type: `${namespace}/onOpenEditorForAdd`,
       payload: {},
-    });
-  };
-
-  onDeleteConfirmed = (list: IHash) => {
-    const {
-      dispatch,
-      tableCardConfig: { namespace },
-    } = this.props;
-    return dispatch({
-      type: `${namespace}/onDeleteBase`,
-      payload: list,
-    });
-  };
-
-  onDelete = (list: IHashList) => {
-    Modal.confirm({
-      title: '提醒',
-      content: `是否确认删除？`,
-      okText: '确定',
-      cancelText: '取消',
-      maskClosable: true,
-      centered: true,
-      onOk: () => this.onDeleteConfirmed(list),
     });
   };
 
@@ -136,7 +110,10 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     } = this.props;
     dispatch({
       type: `${namespace}/onFetchListBase`,
-      payload: pars,
+      payload: {
+        pageIndex: pars.current,
+        pageSize: pars.pageSize,
+      },
     });
   };
 
@@ -181,6 +158,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       tableCardState: { rows, rowCount, pageIndex, pageSize, selectedRows },
       loading: { effects },
       tableCardConfig: { columns, rowKey, namespace, scroll },
+      renderEditor,
     } = this.props;
 
     const rowSelection = {
@@ -201,6 +179,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
           rowSelection={rowSelection}
           scroll={scroll}
         />
+        {renderEditor && renderEditor()}
       </Fragment>
     );
   }

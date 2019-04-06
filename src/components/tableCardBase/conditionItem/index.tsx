@@ -1,5 +1,6 @@
 import React from 'react';
 import { Input } from 'antd';
+import { IConditionItem } from './interface';
 
 interface IProps {
   title: string;
@@ -7,14 +8,6 @@ interface IProps {
   component?: any;
   initialValue?: any;
   visible?: boolean;
-}
-
-export interface IConditionItem {
-  title: string;
-  field: string;
-  initialValue: any;
-  component: any;
-  visible: boolean;
 }
 
 export function ConditionItem(props: IProps): IConditionItem {

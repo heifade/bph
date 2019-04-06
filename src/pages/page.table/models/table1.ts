@@ -9,15 +9,13 @@ const model = mergeModel(createBaseModel(NAMESPACE_TABLE1), {
   state: {},
   effects: {
     *onFetchList(action: IAction, { call, put }) {
-
-      console.log(111, mockdata);
-
       return mockdata;
     },
+    *onFetchDetail(action: IAction, { call, put }) {
+      return mockdata.rows[0];
+    }
   },
   reducers: {},
 });
-
-console.log(99, model);
 
 export default model;

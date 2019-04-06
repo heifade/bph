@@ -1,54 +1,8 @@
-import { IHash } from '../interface/iHash';
-import { IAction } from '../interface/iAction';
-
-export interface ITableCardBaseState {
-  /**
-   * 编辑框是否显示
-   */
-  editorVisible: boolean;
-  /**
-   * 编辑框数据
-   */
-  editorData: IHash;
-  /**
-   * 编辑框打开操作方式：添加，修改
-   */
-  editorDoType: 'add' | 'edit';
-  /**
-   * 当前页号
-   */
-  pageIndex: number;
-  /**
-   * 每页数据行数
-   */
-  pageSize: number;
-  /**
-   * 当前页数据
-   */
-  rows: IHash[];
-  /**
-   * 数据总行数
-   */
-  rowCount: number;
-  /**
-   * 选中的数据
-   */
-  selectedRows: IHash[];
-  /**
-   * 条件
-   */
-  condition: any;
-
-  bodyClientWidth: number;
-  bodyClientHeight: number;
-}
-
-export interface IModel {
-  namespace: string;
-  state: {};
-  effects: {};
-  reducers: {};
-}
+import { IAction } from '../../interface/iAction';
+import { Config } from '../../config';
+import { modalConfirm } from '../../model/modalConfirm';
+import { ITableCardBaseState } from '..';
+import { IModel } from './interface';
 
 export function createBaseModel(namespace: string) {
   return {
@@ -80,14 +34,15 @@ export function createBaseModel(namespace: string) {
       },
       *onFetchListBase(action: IAction, { call, put, take, select }) {
         const { condition, pageSize: pageSizeInState } = yield select(state => state[namespace]);
-        const { current: pageIndex, pageSize } = action.payload;
+        const { pageIndex, pageSize } = action.payload;
 
         // 调用子类的查询方法
         const res = yield yield put({
           type: 'onFetchList',
           payload: {
-            pageIndex,
-            pageSize: pageSize || pageSizeInState,
+            [Config.pagination.pageIndexFieldName]:
+              pageIndex + Config.pagination.startPageIndex - 1,
+            [Config.pagination.pageSizeFieldName]: pageSize || pageSizeInState,
             ...condition,
           },
         });
@@ -103,46 +58,42 @@ export function createBaseModel(namespace: string) {
         });
       },
 
-      *onFetchDetailBase(action: IAction, { call, put, take, select }) {
+      *onOpenDetailBase(action: IAction, { call, put, take, select }) {
         // 调用子类的查询方法
-        const res: IResponseData = yield yield put({
+        const data = yield yield put({
           type: 'onFetchDetail',
           payload: action.payload,
         });
-        if (res.success) {
-          yield put({
-            type: 'onEditorVisibleChangedBase',
-            payload: {
-              editorVisible: true,
-              editorData: res.data, // 从服务端获取到的明细
-              editorDataFromList: action.payload, // 从列表里获取到的数据
-              editorDoType: 'edit',
-            },
-          });
-          yield put({
-            type: 'onFetchDetailDone',
-            payload: {
-              editorData: res.data, // 从服务端获取到的明细
-              editorDataFromList: action.payload, // 从列表里获取到的数据
-            },
-          });
-        }
+        yield put({
+          type: 'onEditorVisibleChangedBase',
+          payload: {
+            editorVisible: true,
+            editorData: data, // 从服务端获取到的明细
+            editorDataFromList: action.payload, // 从列表里获取到的数据
+            editorDoType: 'edit',
+          },
+        });
+        yield put({
+          type: 'onFetchDetailDone',
+          payload: {
+            editorData: data, // 从服务端获取到的明细
+            editorDataFromList: action.payload, // 从列表里获取到的数据
+          },
+        });
       },
 
       *onDeleteBase(action: IAction, { call, put, select }) {
-        try {
-          const res: IResponseData = yield yield put({
+        if (yield call(modalConfirm, '是否确认删除？')) {
+          const res = yield yield put({
             type: 'onDelete',
             payload: action.payload,
           });
 
-          if (res.success) {
-            yield yield put({
-              type: 'onRefreshBase',
-              payload: {},
-            });
-          }
-        } catch (e) {}
+          yield yield put({
+            type: 'onRefreshBase',
+            payload: {},
+          });
+        }
       },
       *onDownloadBase(action: IAction, { call, put, select }) {
         yield put({
@@ -151,24 +102,22 @@ export function createBaseModel(namespace: string) {
         });
       },
       *onSaveBase(action: IAction, { call, put, select }) {
-        const res: IResponseData = yield yield put({
+        const res = yield yield put({
           type: 'onSave',
           payload: action.payload,
         });
 
-        if (res.success) {
-          yield put({
-            type: 'onEditorVisibleChangedBase',
-            payload: {
-              editorVisible: false,
-            },
-          });
+        yield put({
+          type: 'onEditorVisibleChangedBase',
+          payload: {
+            editorVisible: false,
+          },
+        });
 
-          yield yield put({
-            type: 'onRefreshBase',
-            payload: {},
-          });
-        }
+        yield yield put({
+          type: 'onRefreshBase',
+          payload: {},
+        });
       },
 
       *onRefreshBase(action: IAction, { call, put, select }) {
