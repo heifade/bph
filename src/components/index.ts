@@ -3,6 +3,7 @@ export {
   ConditionItem,
   IConditionItem,
   TableCardBase,
+  ITableCardBaseProps,
   ITableCardBaseConfig,
   createBaseModel,
   mergeModel,

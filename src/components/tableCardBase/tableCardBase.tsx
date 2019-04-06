@@ -2,8 +2,8 @@ import React, { PureComponent, Fragment } from 'react';
 import { IDispatch } from '../interface/iDispatch';
 import { ITableCardBaseState } from './modelFactory';
 import { IHashList } from '../interface/iHashList';
-import { ColumnProps } from 'antd/es/table';
-import { Modal, Table } from 'antd';
+import { ColumnProps, PaginationConfig } from 'antd/es/table';
+import { Modal, Table, Button } from 'antd';
 import { IHash } from '../interface/iHash';
 import debounce from 'lodash/debounce';
 import { Condition } from './condition';
@@ -14,21 +14,22 @@ export interface ITableCardBaseProps {
   dispatch: IDispatch;
   tableCardState: ITableCardBaseState;
   location: any;
-  pageConfig: ITableCardBaseConfig;
-
+  tableCardConfig: ITableCardBaseConfig;
   renderCondition?: () => IConditionItem[];
+}
+
+interface IActionButtonState {
+  visible?: boolean;
+  disabled?: boolean;
 }
 
 export interface ITableCardBaseConfig {
   namespace: string;
   columns: Array<ColumnProps<any>>;
-  pageTitle: string;
   rowKey: string;
-  showAddButton?: boolean;
-  showDeleteButton?: boolean;
-  showPrintButton?: boolean;
-  showPayCheckButton?: boolean;
-  haveCheckBox?: boolean;
+  addButton?: IActionButtonState;
+  deleteButton?: IActionButtonState;
+  checkBox?: boolean;
   scroll?: { x: number };
 }
 
@@ -36,7 +37,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   onSearch = (condition: IHash) => {
     const {
       dispatch,
-      pageConfig: { namespace },
+      tableCardConfig: { namespace },
     } = this.props;
     dispatch({
       type: `${namespace}/onSearchBase`,
@@ -51,10 +52,10 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   /**
    * 打开编辑框，进行编辑。
    */
-  onEdit = editorData => {
+  onEdit = (editorData: IHash) => {
     const {
       dispatch,
-      pageConfig: { namespace },
+      tableCardConfig: { namespace },
     } = this.props;
     dispatch({
       type: `${namespace}/onEditorVisibleChangedBase`,
@@ -69,7 +70,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   onAdd = () => {
     const {
       dispatch,
-      pageConfig: { namespace },
+      tableCardConfig: { namespace },
     } = this.props;
     dispatch({
       type: `${namespace}/onEditorVisibleChangedBase`,
@@ -88,7 +89,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   onDeleteConfirmed = (list: IHash) => {
     const {
       dispatch,
-      pageConfig: { namespace },
+      tableCardConfig: { namespace },
     } = this.props;
     return dispatch({
       type: `${namespace}/onDeleteBase`,
@@ -108,57 +109,13 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     });
   };
 
-  onPrintConfirmed = (list: IHash) => {
-    const {
-      dispatch,
-      pageConfig: { namespace },
-    } = this.props;
-    return dispatch({
-      type: `${namespace}/onPrint`,
-      payload: list,
-    });
-  };
-
-  onPrint = (list: IHashList) => {
-    // Modal.confirm({
-    //   title: '提醒',
-    //   content: `是否确认打印？`,
-    //   okText: '确定',
-    //   cancelText: '取消',
-    //   maskClosable: true,
-    //   centered: true,
-    //   onOk: () => this.onPrintConfirmed(list),
-    // });
-    this.onPrintConfirmed(list);
-  };
-
-  onPayCheckConfirmed = (list: IHash) => {
-    const {
-      dispatch,
-      pageConfig: { namespace },
-    } = this.props;
-    return dispatch({
-      type: `${namespace}/onPayCheck`,
-      payload: list,
-    });
-  };
-
-  onPayCheck = (list: IHashList) => {
-    Modal.confirm({
-      title: '提醒',
-      content: `是否确认付款？`,
-      okText: '确定',
-      cancelText: '取消',
-      maskClosable: true,
-      centered: true,
-      onOk: () => this.onPayCheckConfirmed(list),
-    });
-  };
-
   onDownload = (condition: IHash) => {
-    const { dispatch, pageConfig } = this.props;
+    const {
+      dispatch,
+      tableCardConfig: { namespace },
+    } = this.props;
     return dispatch({
-      type: `${pageConfig.namespace}/onDownloadBase`,
+      type: `${namespace}/onDownloadBase`,
       payload: condition,
     });
   };
@@ -172,10 +129,10 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     // window.removeEventListener('resize', this.onResize);
   }
 
-  onPaginationChange = pars => {
+  onPaginationChange = (pars: PaginationConfig) => {
     const {
       dispatch,
-      pageConfig: { namespace },
+      tableCardConfig: { namespace },
     } = this.props;
     dispatch({
       type: `${namespace}/onFetchListBase`,
@@ -186,7 +143,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   onSelectRows = (selectedRowKeys: string[] | number[], selectedRows: IHashList) => {
     const {
       dispatch,
-      pageConfig: { namespace },
+      tableCardConfig: { namespace },
     } = this.props;
     dispatch({
       type: `${namespace}/onSelectRowsBase`,
@@ -200,7 +157,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   onResize = debounce(() => {
     const {
       dispatch,
-      pageConfig: { namespace },
+      tableCardConfig: { namespace },
     } = this.props;
     dispatch({
       type: `${namespace}/onResize`,
@@ -210,13 +167,6 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       },
     });
   }, 300);
-
-  renderEditor() {
-    return null;
-  }
-  renderDetail() {
-    return null;
-  }
 
   renderCondition() {
     const { renderCondition } = this.props;
@@ -230,21 +180,13 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     const {
       tableCardState: { rows, rowCount, pageIndex, pageSize, selectedRows },
       loading: { effects },
-      pageConfig,
+      tableCardConfig: { columns, rowKey, namespace, scroll },
     } = this.props;
 
-    const {
-      pageTitle,
-      columns,
-      rowKey,
-      showAddButton,
-      showDeleteButton,
-      showPrintButton,
-      showPayCheckButton,
-      haveCheckBox,
-      namespace,
-      scroll,
-    } = pageConfig;
+    const rowSelection = {
+      selectedRowKeys: selectedRows.map(h => h[rowKey]),
+      onChange: this.onSelectRows,
+    };
 
     return (
       <Fragment>
@@ -256,14 +198,9 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
           onChange={this.onPaginationChange}
           loading={effects[`${namespace}/onFetchListBase`]}
           rowKey={rowKey}
-          rowSelection={{
-            selectedRowKeys: selectedRows.map(h => h[rowKey]),
-            onChange: this.onSelectRows,
-          }}
+          rowSelection={rowSelection}
           scroll={scroll}
         />
-        {this.renderEditor()}
-        {this.renderDetail()}
       </Fragment>
     );
   }
