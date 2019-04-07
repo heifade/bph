@@ -6,12 +6,13 @@ export {
   ITableCardBaseProps,
   ITableCardBaseConfig,
   ITableCardBaseState,
+  EditorBase,
+  IEditorBaseProps,
   createBaseModel,
   mergeModel,
 } from './components/tableCardBase';
 
-export { IAction } from './interface/iAction';
-export { IDispatch } from './interface/iDispatch';
-export { IHash } from './interface/iHash';
-export { IHashList } from './interface/iHashList';
+export { FormItemInput } from './components/formItemInput';
+
+export { IAction, IDispatch, IHash, IHashList } from './interface';
 export { Config } from './config';
