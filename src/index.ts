@@ -10,6 +10,8 @@ export {
   IEditorBaseProps,
   createBaseModel,
   mergeModel,
+  tableCardBaseMapStateToProps,
+  editorBaseMapStateToProps,
 } from './components/tableCardBase';
 
 export { FormItemInput } from './components/formItemInput';

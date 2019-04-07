@@ -4,8 +4,7 @@ import { ITableCardBaseState } from '../modelFactory/interface';
 
 export interface IEditorBaseProps extends FormComponentProps {
   tableCardState: ITableCardBaseState;
-  // saveLoading: boolean;
-  loading: any;
+  saveLoading: boolean;
   dispatch: IDispatch;
   width: number;
   editorConfig: IEditorBaseConfig;

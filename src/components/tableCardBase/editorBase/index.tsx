@@ -43,7 +43,7 @@ export class EditorBase<T extends IEditorBaseProps> extends PureComponent<T> {
     const {
       tableCardState: { editorVisible, editorDoType },
       editorConfig: { namespace, title },
-      loading,
+      saveLoading,
       width,
       children,
     } = this.props;
@@ -54,7 +54,7 @@ export class EditorBase<T extends IEditorBaseProps> extends PureComponent<T> {
         onClose={this.onClose}
         onSave={this.onSave}
         visible={editorVisible}
-        saveLoading={loading.effects[`${namespace}/onSave`]}
+        saveLoading={saveLoading}
         width={width}
       >
         {children}

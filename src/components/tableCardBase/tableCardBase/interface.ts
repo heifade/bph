@@ -5,6 +5,7 @@ import { IConditionItem } from '../conditionItem/index';
 
 export interface ITableCardBaseProps {
   fetchListLoading: boolean;
+  fetchDetailLoading: boolean;
   dispatch: IDispatch;
   tableCardState: ITableCardBaseState;
   location: any;

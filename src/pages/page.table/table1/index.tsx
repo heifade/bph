@@ -7,19 +7,16 @@ import {
   IConditionItem,
   ConditionItem,
   ITableCardBaseProps,
+  tableCardBaseMapStateToProps,
 } from '@/index';
 import { Divider } from 'antd';
 import { Editor } from './editor';
 
-interface IProps extends ITableCardBaseProps {
-  location: any;
-}
+interface IProps extends ITableCardBaseProps {}
 
 @connect((pars, h) => {
   return {
-    tableCardState: pars[NAMESPACE_TABLE1],
-    fetchListLoading: pars.loading.effects[`${NAMESPACE_TABLE1}/onFetchListBase`],
-    location: h.location,
+    ...tableCardBaseMapStateToProps(pars, NAMESPACE_TABLE1),
   };
 })
 export class Table1 extends React.PureComponent<IProps> {
@@ -41,8 +38,6 @@ export class Table1 extends React.PureComponent<IProps> {
   }
 
   render() {
-    const { tableCardState, fetchListLoading, dispatch } = this.props;
-
     const tableCardConfig: ITableCardBaseConfig = {
       namespace: NAMESPACE_TABLE1,
       rowKey: 'diagramConfigurationId',
@@ -97,12 +92,10 @@ export class Table1 extends React.PureComponent<IProps> {
     return (
       <TableCardBase
         ref={this.tableCardBaseRef}
-        tableCardState={tableCardState}
-        loading={fetchListLoading}
         tableCardConfig={tableCardConfig}
-        dispatch={dispatch}
         renderCondition={this.renderCondition}
         renderEditor={this.renderEditor}
+        {...this.props}
       />
     );
   }
