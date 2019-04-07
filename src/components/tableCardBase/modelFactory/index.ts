@@ -1,8 +1,9 @@
-import { IAction } from '../../interface/iAction';
-import { Config } from '../../config';
+import { IAction } from '../../../interface';
+import { Config } from '../../../config';
 import { modalConfirm } from '../../model/modalConfirm';
-import { ITableCardBaseState } from '..';
-import { IModel } from './interface';
+import { IModel, ITableCardBaseState } from './interface';
+
+export { IModel, ITableCardBaseState };
 
 export function createBaseModel(namespace: string) {
   return {

@@ -1,4 +1,4 @@
-import { IHash } from '../../interface/iHash';
+import { IHash } from '../../../interface/iHash';
 
 export interface ITableCardBaseState {
   /**

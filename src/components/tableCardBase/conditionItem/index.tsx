@@ -9,6 +9,7 @@ interface IProps {
   initialValue?: any;
   visible?: boolean;
 }
+export { IConditionItem }
 
 export function ConditionItem(props: IProps): IConditionItem {
   const { title, field, initialValue = '', component, visible = true } = props;

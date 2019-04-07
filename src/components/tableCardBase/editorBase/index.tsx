@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import { EditModal } from '../../EditModal';
-import { IEditorBaseProps } from './interface';
+import { IEditorBaseProps, IEditorBaseConfig } from './interface';
+
+export { IEditorBaseProps, IEditorBaseConfig };
 
 export class EditorBase<T extends IEditorBaseProps> extends PureComponent<T> {
   onClose = () => {

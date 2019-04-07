@@ -1,4 +1,4 @@
-import { IDispatch } from '../../interface/iDispatch';
+import { IDispatch } from '../../../interface/iDispatch';
 import { ColumnProps } from 'antd/es/table';
 import { ITableCardBaseState } from '../modelFactory/interface';
 import { IConditionItem } from '../conditionItem/index';

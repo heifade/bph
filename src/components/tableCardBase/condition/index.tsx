@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Row, Col, Button, Icon } from 'antd';
 import styles from './styles.less';
 import { FormComponentProps } from 'antd/lib/form';
-import { IHash } from '../../interface/iHash';
+import { IHash } from '../../../interface/iHash';
 import { IConditionItem } from '../conditionItem/interface';
 
 interface IProps extends FormComponentProps {
@@ -52,12 +52,13 @@ class Component extends React.PureComponent<IProps> {
     } = this.props;
 
     const { isCollapsed } = this.state;
+    const cItems = conditionItems.filter(h => h !== undefined);
 
     return (
       <div className={styles.condition}>
         <Form layout="inline" onSubmit={this.onSearch}>
           <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-            {conditionItems
+            {cItems
               // .filter((item, index) => !isCollapsed || index < 3)
               .map((item, index) => (
                 <Col
@@ -86,7 +87,7 @@ class Component extends React.PureComponent<IProps> {
                 <Button style={{ marginLeft: 8 }} onClick={this.onConditionReset}>
                   重置
                 </Button>
-                {conditionItems.length > 3 &&
+                {cItems.length > 3 &&
                   (isCollapsed ? (
                     <a style={{ marginLeft: 8 }} onClick={this.onCollapsed}>
                       展开

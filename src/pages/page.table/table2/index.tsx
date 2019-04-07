@@ -7,7 +7,7 @@ import {
   IConditionItem,
   ConditionItem,
   ITableCardBaseProps,
-} from '@/components/index';
+} from '@/index';
 
 interface IProps extends ITableCardBaseProps {
   location: any;

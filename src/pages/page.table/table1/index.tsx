@@ -7,9 +7,8 @@ import {
   IConditionItem,
   ConditionItem,
   ITableCardBaseProps,
-  IHash,
-} from '@/components/index';
-import { Button, Divider } from 'antd';
+} from '@/index';
+import { Divider } from 'antd';
 import { Editor } from './editor';
 
 interface IProps extends ITableCardBaseProps {
@@ -28,7 +27,11 @@ export class Table1 extends React.PureComponent<IProps> {
 
   renderCondition = () => {
     const conditionItems: IConditionItem[] = [
-      ConditionItem({ title: '组态名称', field: 'keyword' }),
+      ConditionItem({ title: '条件1', field: 'keyword' }),
+      ConditionItem({ title: '条件2', field: 'keyword2' }),
+      ConditionItem({ title: '条件3', field: 'keyword3' }),
+      ConditionItem({ title: '条件4', field: 'keyword4' }),
+      undefined,
     ];
     return conditionItems;
   };
@@ -69,7 +72,7 @@ export class Table1 extends React.PureComponent<IProps> {
         },
         {
           title: '操作',
-          width: 90,
+          width: 120,
           render: record => (
             <React.Fragment>
               <a

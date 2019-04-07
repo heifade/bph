@@ -1,5 +1,5 @@
-import { mergeModel, createBaseModel } from '@/components/index';
-import { IAction } from '@/components/interface/iAction';
+import { mergeModel, createBaseModel } from '@/index';
+import { IAction } from '@/interface/iAction';
 import mockdata from '../mockdata/mockdata';
 
 export const NAMESPACE_TABLE1 = 'page.table.card.test.table1';

@@ -1,6 +1,6 @@
 {
   "name": "bph",
-  "version": "0.0.0-beta11",
+  "version": "0.0.0-beta12",
   "license": "MIT",
   "scripts": {
     "start": "umi dev",
@@ -9,10 +9,13 @@
   },
   "files": [
     "src/components",
-    "src/interface"
+    "src/interface",
+    "src/config.ts",
+    "src/index.ts",
+    "src/index.d.ts"
   ],
-  "module": "src/components",
-  "typings": "src/components/index.d.ts",
+  "module": "src",
+  "typings": "src/index.d.ts",
   "dependencies": {},
   "devDependencies": {
     "@types/jest": "^23.3.12",

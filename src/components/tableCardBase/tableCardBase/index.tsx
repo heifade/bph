@@ -1,11 +1,13 @@
 import React, { PureComponent, Fragment } from 'react';
-import { IHashList } from '../../interface/iHashList';
+import { IHashList } from '../../../interface/iHashList';
 import { PaginationConfig } from 'antd/es/table';
 import { Table } from 'antd';
-import { IHash } from '../../interface/iHash';
+import { IHash } from '../../../interface/iHash';
 import debounce from 'lodash/debounce';
 import { Condition } from '../condition';
-import { ITableCardBaseProps } from './interface';
+import { ITableCardBaseProps, ITableCardBaseConfig } from './interface';
+
+export { ITableCardBaseProps, ITableCardBaseConfig };
 
 export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<T> {
   onSearch = (condition: IHash) => {

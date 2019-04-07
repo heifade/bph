@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { NAMESPACE_TABLE1 } from '../models/table1';
 import { Form } from 'antd';
-import { FormItemInput } from '@/components/tableCardBase/formItemInput';
-import { EditorBase, IEditorBaseProps } from '@/components/tableCardBase';
+import { FormItemInput, EditorBase, IEditorBaseProps } from '@/index';
 
 interface IProps extends IEditorBaseProps {}
 
