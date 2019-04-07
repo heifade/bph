@@ -4,10 +4,13 @@ import styles from './styles.less';
 import { FormComponentProps } from 'antd/lib/form';
 import { IHash } from '../../../interface/iHash';
 import { IConditionItem } from '../conditionItem/interface';
+import { IActionButtonState } from '../tableCardBase/interface';
 
 interface IProps extends FormComponentProps {
   conditionItems: IConditionItem[];
   onSearch: (condition: IHash) => void;
+  onDownload: (condition: IHash) => void;
+  downloadButtonState?: IActionButtonState;
 }
 
 class Component extends React.PureComponent<IProps> {
@@ -22,6 +25,17 @@ class Component extends React.PureComponent<IProps> {
           return;
         }
         onSearch(fieldsValue);
+      });
+    }
+  };
+  onDownload = () => {
+    const { onDownload, form } = this.props;
+    if (onDownload) {
+      form.validateFields((err, fieldsValue) => {
+        if (err) {
+          return;
+        }
+        onDownload(fieldsValue);
       });
     }
   };
@@ -49,6 +63,7 @@ class Component extends React.PureComponent<IProps> {
     const {
       form: { getFieldDecorator },
       conditionItems = [],
+      downloadButtonState,
     } = this.props;
 
     const { isCollapsed } = this.state;
@@ -81,12 +96,23 @@ class Component extends React.PureComponent<IProps> {
 
             <Col xl={6} lg={8} md={12} sm={24}>
               <span className={styles.submitButtons}>
-                <Button type="primary" onClick={this.onSearch}>
+                <Button type="primary" onClick={this.onSearch} icon="search">
                   查询
                 </Button>
-                <Button style={{ marginLeft: 8 }} onClick={this.onConditionReset}>
+                <Button style={{ marginLeft: 8 }} onClick={this.onConditionReset} icon="undo">
                   重置
                 </Button>
+                {downloadButtonState && downloadButtonState.visible && (
+                  <Button
+                    style={{ marginLeft: 8 }}
+                    onClick={this.onDownload}
+                    icon="download"
+                    disabled={downloadButtonState.disabled}
+                  >
+                    下载
+                  </Button>
+                )}
+
                 {cItems.length > 3 &&
                   (isCollapsed ? (
                     <a style={{ marginLeft: 8 }} onClick={this.onCollapsed}>

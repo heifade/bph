@@ -8,9 +8,11 @@ import {
   ConditionItem,
   ITableCardBaseProps,
   tableCardBaseMapStateToProps,
+  TextButton,
 } from '@/index';
 import { Divider } from 'antd';
 import { Editor } from './editor';
+import { Button } from 'antd';
 
 interface IProps extends ITableCardBaseProps {}
 
@@ -32,6 +34,9 @@ export class Table1 extends React.PureComponent<IProps> {
     ];
     return conditionItems;
   };
+  renderActionBar() {
+    return [<Button key="check">审核</Button>];
+  }
 
   renderEditor() {
     return <Editor />;
@@ -41,8 +46,9 @@ export class Table1 extends React.PureComponent<IProps> {
     const tableCardConfig: ITableCardBaseConfig = {
       namespace: NAMESPACE_TABLE1,
       rowKey: 'diagramConfigurationId',
-      // showAddButton: true,
-      // showDeleteButton: true,
+      addButtonState: { visible: true, disabled: false },
+      downloadButtonState: { visible: true, disabled: false },
+      deleteButtonState: { visible: true, disabled: false },
       scroll: { x: 1500 },
       columns: [
         {
@@ -68,23 +74,23 @@ export class Table1 extends React.PureComponent<IProps> {
         {
           title: '操作',
           width: 120,
-          render: record => (
-            <React.Fragment>
-              <a
-                href="javascript: void"
-                onClick={() => this.tableCardBaseRef.current!.onEdit(record)}
-              >
-                编辑
-              </a>
-              <Divider type="vertical" />
-              <a
-                href="javascript: void"
-                onClick={() => this.tableCardBaseRef.current!.onDelete(record)}
-              >
-                删除
-              </a>
-            </React.Fragment>
-          ),
+          render: record => {
+            if (!this.tableCardBaseRef.current) {
+              return null;
+            }
+            const { onEdit, onDelete } = this.tableCardBaseRef.current;
+            return (
+              <React.Fragment>
+                <TextButton data={record} onClick={onEdit}>
+                  编辑
+                </TextButton>
+                <Divider type="vertical" />
+                <TextButton data={[record]} onClick={onDelete}>
+                  删除
+                </TextButton>
+              </React.Fragment>
+            );
+          },
         },
       ],
     };
@@ -94,6 +100,7 @@ export class Table1 extends React.PureComponent<IProps> {
         ref={this.tableCardBaseRef}
         tableCardConfig={tableCardConfig}
         renderCondition={this.renderCondition}
+        renderActionBar={this.renderActionBar}
         renderEditor={this.renderEditor}
         {...this.props}
       />

@@ -1,6 +1,6 @@
 import { IAction } from '../../../interface';
 import { Config } from '../../../config';
-import { modalConfirm } from '../../model/modalConfirm';
+import { modalConfirm } from '../../modal/modalConfirm';
 import { IModel, ITableCardBaseState } from './interface';
 
 export { IModel, ITableCardBaseState };
@@ -85,7 +85,7 @@ export function createBaseModel(namespace: string) {
 
       *onDeleteBase(action: IAction, { call, put, select }) {
         if (yield call(modalConfirm, '是否确认删除？')) {
-          const res = yield yield put({
+          yield yield put({
             type: 'onDelete',
             payload: action.payload,
           });

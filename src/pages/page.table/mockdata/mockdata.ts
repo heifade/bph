@@ -9,6 +9,7 @@ export default {
       status: 1,
       gmtCreate: '2019-04-01 13:34:38',
       gmtModified: '2019-04-01 17:47:03',
+      disabled: true,
     },
     {
       diagramConfigurationId: '5be4331fae4542289c92c26f41cd173c',

@@ -16,7 +16,15 @@ const model = mergeModel(createBaseModel(NAMESPACE_TABLE1), {
     *onFetchDetail(action: IAction, { call, put }) {
       yield call(delay, 500);
       return mockdata.rows[0];
-    }
+    },
+    *onDelete(action: IAction, { call, put }) {
+      console.log('onDelete', action.payload);
+      yield undefined;
+    },
+    *onDownload(action: IAction, { call, put }) {
+      console.log('onDownload', action.payload);
+      yield undefined;
+    },
   },
   reducers: {},
 });

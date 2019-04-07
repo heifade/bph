@@ -6,6 +6,8 @@ import { IHash } from '../../../interface/iHash';
 import debounce from 'lodash/debounce';
 import { Condition } from '../condition';
 import { ITableCardBaseProps, ITableCardBaseConfig } from './interface';
+import { ActionBar } from '../actionBar';
+import { Button } from 'antd';
 
 export { ITableCardBaseProps, ITableCardBaseConfig };
 
@@ -148,11 +150,43 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   }, 300);
 
   renderCondition() {
-    const { renderCondition } = this.props;
+    const {
+      renderCondition,
+      tableCardConfig: { downloadButtonState },
+    } = this.props;
     if (renderCondition) {
-      return <Condition onSearch={this.onSearch} conditionItems={renderCondition()} />;
+      return (
+        <Condition
+          onSearch={this.onSearch}
+          onDownload={this.onDownload}
+          downloadButtonState={downloadButtonState}
+          conditionItems={renderCondition()}
+        />
+      );
     }
     return null;
+  }
+
+  renderActionBar() {
+    const {
+      renderActionBar,
+      tableCardConfig: { addButtonState, deleteButtonState },
+    } = this.props;
+    return (
+      <ActionBar>
+        {addButtonState && addButtonState.visible && (
+          <Button icon="plus" onClick={this.onAdd}>
+            新增
+          </Button>
+        )}
+        {deleteButtonState && deleteButtonState.visible && (
+          <Button icon="delete" disabled={deleteButtonState.disabled}>
+            删除
+          </Button>
+        )}
+        {renderActionBar && renderActionBar()}
+      </ActionBar>
+    );
   }
 
   render() {
@@ -160,18 +194,22 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       tableCardState: { rows, rowCount, pageIndex, pageSize, selectedRows },
       fetchListLoading,
       fetchDetailLoading,
-      tableCardConfig: { columns, rowKey, namespace, scroll },
+      tableCardConfig: { columns, rowKey, scroll },
       renderEditor,
     } = this.props;
 
     const rowSelection = {
       selectedRowKeys: selectedRows.map(h => h[rowKey]),
       onChange: this.onSelectRows,
+      getCheckboxProps: (record: IHash) => ({
+        disabled: record.disabled,
+      }),
     };
 
     return (
       <Fragment>
         {this.renderCondition()}
+        {this.renderActionBar()}
         <Table
           columns={columns}
           dataSource={rows}
