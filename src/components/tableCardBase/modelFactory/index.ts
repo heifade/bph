@@ -44,12 +44,14 @@ export function createBaseModel(namespace: string) {
             [Config.pagination.pageIndexFieldName]:
               pageIndex + Config.pagination.startPageIndex - 1,
             [Config.pagination.pageSizeFieldName]: pageSize || pageSizeInState,
-            sorts: [
-              {
-                field: sorter.field,
-                type: sorter.order === 'ascend' ? 'ASC' : 'DESC',
-              },
-            ],
+            sorts: sorter
+              ? [
+                  {
+                    field: sorter.field,
+                    type: sorter.order === 'ascend' ? 'ASC' : 'DESC',
+                  },
+                ]
+              : [],
             ...condition,
           },
         });
