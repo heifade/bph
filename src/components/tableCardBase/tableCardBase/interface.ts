@@ -4,7 +4,7 @@ import { ITableCardBaseState } from '../modelFactory/interface';
 import { IConditionItem } from '../conditionItem/index';
 
 export interface ITableCardBaseProps {
-  loading: any;
+  fetchListLoading: boolean;
   dispatch: IDispatch;
   tableCardState: ITableCardBaseState;
   location: any;

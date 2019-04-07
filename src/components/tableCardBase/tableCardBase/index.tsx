@@ -158,7 +158,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   render() {
     const {
       tableCardState: { rows, rowCount, pageIndex, pageSize, selectedRows },
-      loading: { effects },
+      fetchListLoading,
       tableCardConfig: { columns, rowKey, namespace, scroll },
       renderEditor,
     } = this.props;
@@ -176,7 +176,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
           dataSource={rows}
           pagination={{ current: pageIndex, total: rowCount, showSizeChanger: true, pageSize }}
           onChange={this.onPaginationChange}
-          loading={effects[`${namespace}/onFetchListBase`]}
+          loading={fetchListLoading}
           rowKey={rowKey}
           rowSelection={rowSelection}
           scroll={scroll}

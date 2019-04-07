@@ -6,7 +6,7 @@ import { FormItemInput, EditorBase, IEditorBaseProps } from '@/index';
 
 interface IProps extends IEditorBaseProps {}
 
-@connect(pars => {
+@connect((pars: any) => {
   return {
     tableCardState: pars[NAMESPACE_TABLE1],
     loading: pars.loading,

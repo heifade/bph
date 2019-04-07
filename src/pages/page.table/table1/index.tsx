@@ -18,7 +18,7 @@ interface IProps extends ITableCardBaseProps {
 @connect((pars, h) => {
   return {
     tableCardState: pars[NAMESPACE_TABLE1],
-    loading: pars.loading,
+    fetchListLoading: pars.loading.effects[`${NAMESPACE_TABLE1}/onFetchListBase`],
     location: h.location,
   };
 })
@@ -41,7 +41,7 @@ export class Table1 extends React.PureComponent<IProps> {
   }
 
   render() {
-    const { tableCardState, loading, dispatch } = this.props;
+    const { tableCardState, fetchListLoading, dispatch } = this.props;
 
     const tableCardConfig: ITableCardBaseConfig = {
       namespace: NAMESPACE_TABLE1,
@@ -98,7 +98,7 @@ export class Table1 extends React.PureComponent<IProps> {
       <TableCardBase
         ref={this.tableCardBaseRef}
         tableCardState={tableCardState}
-        loading={loading}
+        loading={fetchListLoading}
         tableCardConfig={tableCardConfig}
         dispatch={dispatch}
         renderCondition={this.renderCondition}
