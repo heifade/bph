@@ -18,3 +18,5 @@ export { FormItemInput } from './components/formItemInput';
 
 export { IAction, IDispatch, IHash, IHashList } from './interface';
 export { Config } from './config';
+
+export { TextButton } from './components/textButton';
