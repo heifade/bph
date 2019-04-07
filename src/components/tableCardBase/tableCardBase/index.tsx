@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { IHashList } from '../../../interface/iHashList';
-import { PaginationConfig } from 'antd/es/table';
+import { PaginationConfig, SorterResult, TableCurrentDataSource } from 'antd/es/table';
 import { Table } from 'antd';
 import { IHash } from '../../../interface/iHash';
 import debounce from 'lodash/debounce';
@@ -107,7 +107,12 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     // window.removeEventListener('resize', this.onResize);
   }
 
-  onPaginationChange = (pars: PaginationConfig) => {
+  onPaginationChange = (
+    pars: PaginationConfig,
+    filters: Record<React.ReactText, string[]>,
+    sorter: SorterResult<IHash>,
+    extra: TableCurrentDataSource<IHash>,
+  ) => {
     const {
       dispatch,
       tableCardConfig: { namespace },
@@ -115,6 +120,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     dispatch({
       type: `${namespace}/onFetchListBase`,
       payload: {
+        sorter,
         pageIndex: pars.current,
         pageSize: pars.pageSize,
       },

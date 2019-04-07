@@ -56,6 +56,7 @@ export class Table1 extends React.PureComponent<IProps> {
           dataIndex: 'name',
           width: 105,
           fixed: 'left',
+          sorter: true,
         },
         {
           title: '组态描述',

@@ -35,7 +35,7 @@ export function createBaseModel(namespace: string) {
       },
       *onFetchListBase(action: IAction, { call, put, take, select }) {
         const { condition, pageSize: pageSizeInState } = yield select(state => state[namespace]);
-        const { pageIndex, pageSize } = action.payload;
+        const { pageIndex, pageSize, sorter } = action.payload;
 
         // 调用子类的查询方法
         const res = yield yield put({
@@ -44,6 +44,12 @@ export function createBaseModel(namespace: string) {
             [Config.pagination.pageIndexFieldName]:
               pageIndex + Config.pagination.startPageIndex - 1,
             [Config.pagination.pageSizeFieldName]: pageSize || pageSizeInState,
+            sorts: [
+              {
+                field: sorter.field,
+                type: sorter.order === 'ascend' ? 'ASC' : 'DESC',
+              },
+            ],
             ...condition,
           },
         });
