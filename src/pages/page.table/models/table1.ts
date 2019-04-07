@@ -7,9 +7,12 @@ export const NAMESPACE_TABLE1 = 'page.table.card.test.table1';
 
 const model = mergeModel(createBaseModel(NAMESPACE_TABLE1), {
   namespace: NAMESPACE_TABLE1,
-  state: {},
+  state: {
+    sorts: [{ field: 'gmtCreate', type: 'DESC' }],
+  },
   effects: {
     *onFetchList(action: IAction, { call, put }) {
+      console.log('fetch', action.payload);
       yield call(delay, 500);
       return mockdata;
     },

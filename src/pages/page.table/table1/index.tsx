@@ -61,15 +61,19 @@ export class Table1 extends React.PureComponent<IProps> {
         {
           title: '组态描述',
           dataIndex: 'desc',
+          sorter: true,
         },
         {
           title: '创建时间',
           dataIndex: 'gmtCreate',
           width: 185,
+          sorter: true,
+          defaultSortOrder: 'descend',
         },
         {
           title: '修改时间',
           dataIndex: 'gmtModified',
+          sorter: true,
           width: 185,
         },
         {

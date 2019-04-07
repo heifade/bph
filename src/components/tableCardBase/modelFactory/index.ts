@@ -19,6 +19,7 @@ export function createBaseModel(namespace: string) {
       condition: {},
       bodyClientWidth: 0,
       bodyClientHeight: 0,
+      sorts: [],
     },
 
     effects: {
@@ -34,8 +35,22 @@ export function createBaseModel(namespace: string) {
         });
       },
       *onFetchListBase(action: IAction, { call, put, take, select }) {
-        const { condition, pageSize: pageSizeInState } = yield select(state => state[namespace]);
+        const { condition, pageSize: pageSizeInState, sorts: sortsInState } = yield select(
+          state => state[namespace],
+        );
         const { pageIndex, pageSize, sorter } = action.payload;
+
+        let sorts = sortsInState || [];
+        if (sorter) {
+          sorts = sorter.field
+            ? [
+                {
+                  field: sorter.field,
+                  type: sorter.order === 'ascend' ? 'ASC' : 'DESC',
+                },
+              ]
+            : [];
+        }
 
         // 调用子类的查询方法
         const res = yield yield put({
@@ -44,14 +59,7 @@ export function createBaseModel(namespace: string) {
             [Config.pagination.pageIndexFieldName]:
               pageIndex + Config.pagination.startPageIndex - 1,
             [Config.pagination.pageSizeFieldName]: pageSize || pageSizeInState,
-            sorts: sorter
-              ? [
-                  {
-                    field: sorter.field,
-                    type: sorter.order === 'ascend' ? 'ASC' : 'DESC',
-                  },
-                ]
-              : [],
+            sorts,
             ...condition,
           },
         });
@@ -63,6 +71,7 @@ export function createBaseModel(namespace: string) {
             rowCount: res.rowCount,
             pageIndex,
             pageSize,
+            sorts,
           },
         });
       },
@@ -130,12 +139,13 @@ export function createBaseModel(namespace: string) {
       },
 
       *onRefreshBase(action: IAction, { call, put, select }) {
-        const { pageIndex, pageSize } = yield select(state => state[namespace]);
+        const { pageIndex, pageSize, sorts } = yield select(state => state[namespace]);
         yield put({
           type: 'onFetchListBase',
           payload: {
             pageIndex,
             pageSize,
+            sorts,
           },
         });
       },
@@ -146,13 +156,14 @@ export function createBaseModel(namespace: string) {
         state.condition = action.payload;
       },
       onFetchListDoneBase(state: ITableCardBaseState, action: IAction) {
-        const { rowCount, rows, pageIndex, pageSize } = action.payload;
+        const { rowCount, rows, pageIndex, pageSize, sorts } = action.payload;
 
         state.rows = rows;
         state.rowCount = rowCount;
         state.pageIndex = pageIndex;
         state.pageSize = pageSize;
         state.selectedRows = [];
+        state.sorts = sorts;
       },
 
       onSelectRowsBase(state: ITableCardBaseState, action: IAction) {

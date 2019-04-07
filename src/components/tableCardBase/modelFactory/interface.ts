@@ -22,6 +22,10 @@ export interface ITableCardBaseState {
    */
   pageSize: number;
   /**
+   * 排序
+   */
+  sorts: { field: 'name'; type: 'ASC' | 'DESC' }[];
+  /**
    * 当前页数据
    */
   rows: IHash[];
