@@ -180,7 +180,10 @@ export function createBaseModel(namespace: string) {
         } else {
           // 如果是跨页选择
           if (selected) {
-            state.selectedRows = state.selectedRows.concat(selectedRows);
+            const addRows = selectedRows.filter(
+              (h: IHash) => !state.selectedRows.find(h1 => h[rowKey] === h1[rowKey]),
+            );
+            state.selectedRows = state.selectedRows.concat(addRows);
           } else {
             state.selectedRows = state.selectedRows.filter(
               h => !changeRows.find((h1: IHash) => h[rowKey] === h1[rowKey]),
