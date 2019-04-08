@@ -1,6 +1,6 @@
 {
   "name": "bph",
-  "version": "0.0.0-beta24",
+  "version": "0.0.0-beta26",
   "license": "MIT",
   "scripts": {
     "start": "umi dev",
@@ -12,7 +12,8 @@
     "src/interface",
     "src/config.ts",
     "src/index.ts",
-    "src/index.d.ts"
+    "src/index.d.ts",
+    "src/var.less"
   ],
   "module": "src",
   "typings": "src/index.d.ts",

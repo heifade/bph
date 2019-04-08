@@ -7,4 +7,21 @@
     display: block;
     white-space: nowrap;
   }
+  .bph_form_item {
+    display: flex;
+    margin-bottom: 0;
+    .ant-form-item-control-wrapper {
+      flex: 1;
+    }
+    @media (max-width: 575px) {
+      .ant-form-item-label,
+      .ant-form-item-control-wrapper {
+        width: unset;
+        line-height: unset;
+      }
+    }
+    .ant-form-item-label {
+      padding-left: 10px;
+    }
+  }
 }

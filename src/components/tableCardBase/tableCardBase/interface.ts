@@ -46,5 +46,5 @@ export interface ITableCardBaseConfig {
   /**
    * 表格滚动
    */
-  scroll?: { x: number; y: number };
+  scroll?: { x?: number; y?: number };
 }

@@ -26,10 +26,10 @@ export class Table1 extends React.PureComponent<IProps> {
 
   renderCondition = () => {
     const conditionItems: IConditionItem[] = [
-      ConditionItem({ title: '条件1', field: 'keyword' }),
-      ConditionItem({ title: '条件2', field: 'keyword2' }),
-      ConditionItem({ title: '条件3', field: 'keyword3' }),
-      ConditionItem({ title: '条件4', field: 'keyword4' }),
+      ConditionItem({ title: '条件名称1', field: 'keyword' }),
+      ConditionItem({ title: '条件名称2', field: 'keyword2' }),
+      ConditionItem({ title: '条件名称3', field: 'keyword3' }),
+      ConditionItem({ title: '条件名称4', field: 'keyword4' }),
       undefined,
     ];
     return conditionItems;

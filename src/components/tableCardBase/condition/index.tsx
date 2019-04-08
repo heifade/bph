@@ -71,28 +71,26 @@ class Component extends React.PureComponent<IProps> {
 
     return (
       <div className={`bph_condition`}>
-        <Form layout="inline" onSubmit={this.onSearch}>
-          <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-            {cItems
-              // .filter((item, index) => !isCollapsed || index < 3)
-              .map((item, index) => (
-                <Col
-                  xl={6}
-                  lg={8}
-                  md={12}
-                  sm={24}
-                  key={item.field}
-                  style={{
-                    display: item.visible && (!isCollapsed || index < 3) ? undefined : 'none',
-                  }}
-                >
-                  <Form.Item label={item.title}>
-                    {getFieldDecorator(item.field, { initialValue: item.initialValue })(
-                      item.component,
-                    )}
-                  </Form.Item>
-                </Col>
-              ))}
+        <Form onSubmit={this.onSearch}>
+          <Row gutter={0}>
+            {cItems.map((item, index) => (
+              <Col
+                xl={6}
+                lg={8}
+                md={12}
+                sm={24}
+                key={item.field}
+                style={{
+                  display: item.visible && (!isCollapsed || index < 3) ? undefined : 'none',
+                }}
+              >
+                <Form.Item label={item.title} className={'bph_form_item'}>
+                  {getFieldDecorator(item.field, { initialValue: item.initialValue })(
+                    item.component,
+                  )}
+                </Form.Item>
+              </Col>
+            ))}
 
             <Col xl={6} lg={8} md={12} sm={24}>
               <span className={`bph_submitButtons`}>
