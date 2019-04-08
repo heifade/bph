@@ -1,10 +1,10 @@
 import React from 'react';
 import { Form, Row, Col, Button, Icon } from 'antd';
-import styles from './styles.less';
+import './styles.less';
 import { FormComponentProps } from 'antd/lib/form';
 import { IHash } from '../../../interface/iHash';
 import { IConditionItem } from '../conditionItem/interface';
-import { IActionButtonState } from '../tableCardBase/interface';
+import { IActionButtonState } from '../actionBar/interface';
 
 interface IProps extends FormComponentProps {
   conditionItems: IConditionItem[];
@@ -70,7 +70,7 @@ class Component extends React.PureComponent<IProps> {
     const cItems = conditionItems.filter(h => h !== undefined);
 
     return (
-      <div className={styles.condition}>
+      <div className={`bph_condition`}>
         <Form layout="inline" onSubmit={this.onSearch}>
           <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
             {cItems
@@ -95,7 +95,7 @@ class Component extends React.PureComponent<IProps> {
               ))}
 
             <Col xl={6} lg={8} md={12} sm={24}>
-              <span className={styles.submitButtons}>
+              <span className={`bph_submitButtons`}>
                 <Button type="primary" onClick={this.onSearch} icon="search">
                   查询
                 </Button>

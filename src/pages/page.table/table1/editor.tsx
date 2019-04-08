@@ -22,18 +22,26 @@ export class Editor extends React.PureComponent<IProps> {
     };
     return (
       <EditorBase width={500} editorConfig={editorConfig} {...this.props}>
-        <Form layout="vertical" hideRequiredMark={true}>
+        <Form layout="vertical">
           <FormItemInput
             label="编号"
             fieldName="diagramConfigurationId"
             value={hash.diagramConfigurationId}
             form={form}
             required={true}
+            visible={false}
           />
           <FormItemInput
             label="名称"
             fieldName="name"
             value={hash.name}
+            form={form}
+            required={true}
+          />
+          <FormItemInput
+            label="描述"
+            fieldName="desc"
+            value={hash.desc}
             form={form}
             required={true}
           />

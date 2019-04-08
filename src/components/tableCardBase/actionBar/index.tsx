@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './styles.less';
+import './styles.less';
 
 interface IProps {
   children: React.ReactNode | React.ReactNodeArray;
@@ -8,6 +8,6 @@ interface IProps {
 export class ActionBar extends React.PureComponent<IProps> {
   render() {
     const { children } = this.props;
-    return <div className={styles.actionBar}>{children}</div>;
+    return <div className={`bph_actionBar`}>{children}</div>;
   }
 }

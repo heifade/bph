@@ -9,8 +9,9 @@ interface IProps {
   label: string;
   required?: boolean;
   component?: any;
-  readonly?: boolean;
+  disabled?: boolean;
   visible?: boolean;
+  inputProps?: any;
 }
 
 const formItemLayout = {
@@ -27,8 +28,9 @@ export class FormItemInput extends React.PureComponent<IProps> {
       fieldName,
       required,
       component,
-      readonly,
+      disabled,
       visible = true,
+      inputProps,
     } = this.props;
 
     return (
@@ -45,7 +47,9 @@ export class FormItemInput extends React.PureComponent<IProps> {
               message: `请输入${label}`,
             },
           ],
-        })(component || <Input placeholder={`请输入${label}`} disabled={readonly} />)}
+        })(
+          component || <Input placeholder={`请输入${label}`} disabled={disabled} {...inputProps} />,
+        )}
       </Form.Item>
     );
   }

@@ -17,6 +17,7 @@ const model = mergeModel(createBaseModel(NAMESPACE_TABLE1), {
       return mockdata;
     },
     *onFetchDetail(action: IAction, { call, put }) {
+      console.log(11, action.payload);
       yield call(delay, 500);
       return mockdata.rows[0];
     },
