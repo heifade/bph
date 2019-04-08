@@ -198,6 +198,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     const {
       renderActionBar,
       tableCardConfig: { addButtonState, deleteButtonState },
+      tableCardState: { selectedRows },
     } = this.props;
     return (
       <ActionBar>
@@ -212,6 +213,9 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
           </Button>
         )}
         {renderActionBar && renderActionBar()}
+        {selectedRows.length > 0 && (
+          <div className={'bph_selected_info'}>共选中{selectedRows.length}条</div>
+        )}
       </ActionBar>
     );
   }
