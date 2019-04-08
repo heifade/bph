@@ -1,3 +1,13 @@
+@import '../../../var.less';
+
 .bph_actionBar {
   display: flex;
+  padding: @bph-actionbar-padding;
+
+  & > * {
+    margin-right: @bph-actionbar-btn-space;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
 }

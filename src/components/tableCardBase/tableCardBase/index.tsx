@@ -1,13 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
 import { IHashList } from '../../../interface/iHashList';
 import { PaginationConfig, SorterResult, TableCurrentDataSource } from 'antd/es/table';
-import { Table } from 'antd';
+import { Table, Button } from 'antd';
 import { IHash } from '../../../interface/iHash';
 import debounce from 'lodash/debounce';
 import { Condition } from '../condition';
 import { ITableCardBaseProps, ITableCardBaseConfig } from './interface';
 import { ActionBar } from '../actionBar';
-import { Button } from 'antd';
 
 export { ITableCardBaseProps, ITableCardBaseConfig };
 
@@ -15,7 +14,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   onSearch = (condition: IHash) => {
     const {
       dispatch,
-      tableCardConfig: { namespace },
+      tableCardConfig: { namespace, crossPageSelect },
     } = this.props;
     dispatch({
       type: `${namespace}/onSearchBase`,
@@ -23,6 +22,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         condition,
         pageIndex: 1,
         pageSize: 10,
+        crossPageSelect,
       },
     });
   };
@@ -115,7 +115,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   ) => {
     const {
       dispatch,
-      tableCardConfig: { namespace },
+      tableCardConfig: { namespace, crossPageSelect },
     } = this.props;
     dispatch({
       type: `${namespace}/onFetchListBase`,
@@ -123,20 +123,41 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         sorter,
         pageIndex: pars.current,
         pageSize: pars.pageSize,
+        crossPageSelect,
       },
     });
   };
 
-  onSelectRows = (selectedRowKeys: string[] | number[], selectedRows: IHashList) => {
+  onSelectAllRows = (selected: boolean, selectedRows: IHashList, changeRows: any) => {
     const {
       dispatch,
-      tableCardConfig: { namespace },
+      tableCardConfig: { namespace, crossPageSelect, rowKey },
     } = this.props;
     dispatch({
-      type: `${namespace}/onSelectRowsBase`,
+      type: `${namespace}/onSelectAllRowsBase`,
       payload: {
+        selected,
+        rowKey,
         selectedRows,
-        selectedRowKeys,
+        crossPageSelect,
+        changeRows,
+      },
+    });
+  };
+
+  onSelectRow = (record: any, selected: boolean, selectedRows: IHashList, nativeEvent: any) => {
+    const {
+      dispatch,
+      tableCardConfig: { namespace, crossPageSelect, rowKey },
+    } = this.props;
+    dispatch({
+      type: `${namespace}/onSelectRowBase`,
+      payload: {
+        record,
+        selected,
+        rowKey,
+        selectedRows,
+        crossPageSelect,
       },
     });
   };
@@ -206,7 +227,8 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
 
     const rowSelection = {
       selectedRowKeys: selectedRows.map(h => h[rowKey]),
-      onChange: this.onSelectRows,
+      onSelect: this.onSelectRow,
+      onSelectAll: this.onSelectAllRows,
       getCheckboxProps: (record: IHash) => ({
         disabled: record.disabled,
       }),

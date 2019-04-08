@@ -19,10 +19,32 @@ export interface ITableCardBaseProps {
 export interface ITableCardBaseConfig {
   namespace: string;
   columns: Array<ColumnProps<any>>;
+  /**
+   * 数据主键字段
+   */
   rowKey: string;
+  /**
+   * 添加按钮
+   */
   addButtonState?: IActionButtonState;
+  /**
+   * 删除按钮
+   */
   deleteButtonState?: IActionButtonState;
+  /**
+   * 下载按钮
+   */
   downloadButtonState?: IActionButtonState;
+  /**
+   * 是否显示复选框
+   */
   checkBox?: boolean;
-  scroll?: { x: number };
+  /**
+   * 是否跨页选择
+   */
+  crossPageSelect?: boolean;
+  /**
+   * 表格滚动
+   */
+  scroll?: { x: number; y: number };
 }

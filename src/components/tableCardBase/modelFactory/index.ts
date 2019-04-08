@@ -1,4 +1,4 @@
-import { IAction } from '../../../interface';
+import { IAction, IHash } from '../../../interface';
 import { Config } from '../../../config';
 import { modalConfirm } from '../../modal/modalConfirm';
 import { IModel, ITableCardBaseState } from './interface';
@@ -20,6 +20,8 @@ export function createBaseModel(namespace: string) {
       bodyClientWidth: 0,
       bodyClientHeight: 0,
       sorts: [],
+      rows: [],
+      rowCount: 0,
     },
 
     effects: {
@@ -38,7 +40,7 @@ export function createBaseModel(namespace: string) {
         const { condition, pageSize: pageSizeInState, sorts: sortsInState } = yield select(
           state => state[namespace],
         );
-        const { pageIndex, pageSize, sorter } = action.payload;
+        const { pageIndex, pageSize, sorter, crossPageSelect } = action.payload;
 
         let sorts = sortsInState || [];
         if (sorter) {
@@ -72,6 +74,7 @@ export function createBaseModel(namespace: string) {
             pageIndex,
             pageSize,
             sorts,
+            crossPageSelect,
           },
         });
       },
@@ -156,19 +159,52 @@ export function createBaseModel(namespace: string) {
         state.condition = action.payload;
       },
       onFetchListDoneBase(state: ITableCardBaseState, action: IAction) {
-        const { rowCount, rows, pageIndex, pageSize, sorts } = action.payload;
+        const { rowCount, rows, pageIndex, pageSize, sorts, crossPageSelect } = action.payload;
 
         state.rows = rows;
         state.rowCount = rowCount;
         state.pageIndex = pageIndex;
         state.pageSize = pageSize;
-        state.selectedRows = [];
+        if (!crossPageSelect) {
+          // 不跨页选择时，清空已选数据
+          state.selectedRows = [];
+        }
         state.sorts = sorts;
       },
 
-      onSelectRowsBase(state: ITableCardBaseState, action: IAction) {
-        const { selectedRows, selectedRowKeys } = action.payload;
-        state.selectedRows = selectedRows;
+      onSelectAllRowsBase(state: ITableCardBaseState, action: IAction) {
+        const { rowKey, selected, selectedRows, crossPageSelect, changeRows } = action.payload;
+        if (!crossPageSelect) {
+          // 如果不是跨页
+          state.selectedRows = selectedRows;
+        } else {
+          // 如果是跨页选择
+          if (selected) {
+            state.selectedRows = state.selectedRows.concat(selectedRows);
+          } else {
+            state.selectedRows = state.selectedRows.filter(
+              h => !changeRows.find((h1: IHash) => h[rowKey] === h1[rowKey]),
+            );
+          }
+        }
+      },
+
+      onSelectRowBase(state: ITableCardBaseState, action: IAction) {
+        const { record, rowKey, selected, selectedRows, crossPageSelect } = action.payload;
+        if (!crossPageSelect) {
+          // 如果不是跨页
+          state.selectedRows = selectedRows;
+        } else {
+          // 如果是跨页选择
+          if (selected) {
+            state.selectedRows.push(record);
+          } else {
+            const index = state.selectedRows.findIndex(h => h[rowKey] === record[rowKey]);
+            if (index > -1) {
+              state.selectedRows.splice(index, 1);
+            }
+          }
+        }
       },
 
       onEditorVisibleChangedBase(state: ITableCardBaseState, action: IAction) {
