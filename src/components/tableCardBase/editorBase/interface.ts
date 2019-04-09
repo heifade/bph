@@ -6,7 +6,8 @@ export interface IEditorBaseProps extends FormComponentProps {
   tableCardState: ITableCardBaseState;
   saveLoading: boolean;
   dispatch: IDispatch;
-  width: number;
+  width?: number;
+  padding?: number;
   editorConfig: IEditorBaseConfig;
 }
 

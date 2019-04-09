@@ -12,12 +12,9 @@ interface IProps {
   disabled?: boolean;
   visible?: boolean;
   inputProps?: any;
+  colon?: boolean;
+  layout?: 'vertical' | 'horizontal';
 }
-
-const formItemLayout = {
-  labelCol: { span: 7 },
-  wrapperCol: { span: 13 },
-};
 
 export class FormItemInput extends React.PureComponent<IProps> {
   render() {
@@ -31,13 +28,25 @@ export class FormItemInput extends React.PureComponent<IProps> {
       disabled,
       visible = true,
       inputProps,
+      colon = true,
+      layout = 'horizontal',
     } = this.props;
+
+    let formItemLayout = {};
+
+    if (layout === 'horizontal') {
+      formItemLayout = {
+        labelCol: { span: 7 },
+        wrapperCol: { span: 13 },
+      };
+    }
 
     return (
       <Form.Item
         label={label}
         {...formItemLayout}
         style={{ display: visible ? undefined : 'none' }}
+        colon={colon}
       >
         {getFieldDecorator(fieldName, {
           initialValue: value,

@@ -11,6 +11,10 @@ interface IProps extends FormComponentProps {
   onSearch: (condition: IHash) => void;
   onDownload: (condition: IHash) => void;
   downloadButtonState?: IActionButtonState;
+  /**
+   * 是否在组件加载完成后自动调用search方法，默认: true
+   */
+  autoSearch?: boolean;
 }
 
 class Component extends React.PureComponent<IProps> {
@@ -57,7 +61,10 @@ class Component extends React.PureComponent<IProps> {
     });
   };
   componentDidMount() {
-    this.onSearch();
+    const { autoSearch } = this.props;
+    if (autoSearch !== false) {
+      this.onSearch();
+    }
   }
   render() {
     const {

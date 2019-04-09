@@ -13,6 +13,8 @@ import {
 import { Divider } from 'antd';
 import { Editor } from './editor';
 import { Button } from 'antd';
+import { IHash } from '@/interface';
+import { NAMESPACE_TABLE2 } from '../models/table2';
 
 interface IProps extends ITableCardBaseProps {}
 
@@ -42,6 +44,14 @@ export class Table1 extends React.PureComponent<IProps> {
     return <Editor />;
   }
 
+  onOpenNextTable = (record: IHash) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: `${NAMESPACE_TABLE2}/onShowTable`,
+      payload: record,
+    });
+  };
+
   render() {
     const tableCardConfig: ITableCardBaseConfig = {
       namespace: NAMESPACE_TABLE1,
@@ -49,8 +59,10 @@ export class Table1 extends React.PureComponent<IProps> {
       addButtonState: { visible: true, disabled: false },
       downloadButtonState: { visible: true, disabled: false },
       deleteButtonState: { visible: true, disabled: false },
-      scroll: { x: 1500, y: 500 },
+      scroll: { x: 1500, y: 300 },
       crossPageSelect: true,
+      // pagination: false,
+      autoSearch: true,
       columns: [
         {
           title: '组态编号',
@@ -86,7 +98,7 @@ export class Table1 extends React.PureComponent<IProps> {
         },
         {
           title: '操作',
-          width: 120,
+          width: 250,
           render: record => {
             if (!this.tableCardBaseRef.current) {
               return null;
@@ -96,6 +108,10 @@ export class Table1 extends React.PureComponent<IProps> {
               <React.Fragment>
                 <TextButton data={record} onClick={onEdit}>
                   编辑
+                </TextButton>
+                <Divider type="vertical" />
+                <TextButton data={record} onClick={this.onOpenNextTable}>
+                  打开关联表格
                 </TextButton>
                 <Divider type="vertical" />
                 <TextButton data={[record]} onClick={onDelete}>

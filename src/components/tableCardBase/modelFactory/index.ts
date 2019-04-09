@@ -101,8 +101,21 @@ export function createBaseModel(namespace: string) {
             editorDataFromList: action.payload, // 从列表里获取到的数据
           },
         });
+        yield yield put({
+          type: 'onAfterOpenDetail',
+          payload: {
+            editorData: data, // 从服务端获取到的明细
+            editorDataFromList: action.payload, // 从列表里获取到的数据
+          },
+        });
       },
-
+      *onDeletesBase(action: IAction, { call, put, select }) {
+        const selectedRows = yield select(state => state[namespace].selectedRows);
+        yield yield put({
+          type: 'onDeleteBase',
+          payload: selectedRows,
+        });
+      },
       *onDeleteBase(action: IAction, { call, put, select }) {
         if (yield call(modalConfirm, '是否确认删除？')) {
           yield yield put({
@@ -113,6 +126,13 @@ export function createBaseModel(namespace: string) {
           yield yield put({
             type: 'onRefreshBase',
             payload: {},
+          });
+
+          yield yield put({
+            type: 'onAfterDelete',
+            payload: {
+              data: action.payload,
+            },
           });
         }
       },
@@ -138,6 +158,14 @@ export function createBaseModel(namespace: string) {
         yield yield put({
           type: 'onRefreshBase',
           payload: {},
+        });
+
+        // 调用子类方法
+        yield yield put({
+          type: 'onAfterSave',
+          payload: {
+            data: action.payload,
+          },
         });
       },
 
@@ -217,7 +245,7 @@ export function createBaseModel(namespace: string) {
         state.editorDoType = editorDoType;
       },
 
-      onResize(state: ITableCardBaseState, action: IAction) {
+      onResizeBase(state: ITableCardBaseState, action: IAction) {
         const { clientWidth, clientHeight } = action.payload;
         state.bodyClientWidth = clientWidth;
         state.bodyClientHeight = clientHeight;

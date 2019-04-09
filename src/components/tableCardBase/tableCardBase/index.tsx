@@ -11,7 +11,7 @@ import { ActionBar } from '../actionBar';
 export { ITableCardBaseProps, ITableCardBaseConfig };
 
 export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<T> {
-  onSearch = (condition: IHash) => {
+  onSearch = (condition?: IHash) => {
     const {
       dispatch,
       tableCardConfig: { namespace, crossPageSelect },
@@ -27,14 +27,25 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     });
   };
 
-  onDelete = (record: IHash) => {
+  onDeletes = () => {
+    const {
+      dispatch,
+      tableCardConfig: { namespace },
+    } = this.props;
+    dispatch({
+      type: `${namespace}/onDeletesBase`,
+      payload: {},
+    });
+  };
+
+  onDelete = (records: IHashList) => {
     const {
       dispatch,
       tableCardConfig: { namespace },
     } = this.props;
     dispatch({
       type: `${namespace}/onDeleteBase`,
-      payload: record,
+      payload: records,
     });
   };
 
@@ -101,6 +112,14 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   componentDidMount() {
     // window.addEventListener('resize', this.onResize);
     // this.onResize();
+
+    const {
+      renderCondition,
+      tableCardConfig: { autoSearch },
+    } = this.props;
+    if (!renderCondition && autoSearch !== false) {
+      this.onSearch(undefined);
+    }
   }
 
   componentWillUnmount() {
@@ -168,7 +187,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       tableCardConfig: { namespace },
     } = this.props;
     dispatch({
-      type: `${namespace}/onResize`,
+      type: `${namespace}/onResizeBase`,
       payload: {
         clientWidth: document.body.clientWidth,
         clientHeight: document.body.clientHeight,
@@ -179,7 +198,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   renderCondition() {
     const {
       renderCondition,
-      tableCardConfig: { downloadButtonState },
+      tableCardConfig: { downloadButtonState, autoSearch },
     } = this.props;
     if (renderCondition) {
       return (
@@ -187,6 +206,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
           onSearch={this.onSearch}
           onDownload={this.onDownload}
           downloadButtonState={downloadButtonState}
+          autoSearch={autoSearch}
           conditionItems={renderCondition()}
         />
       );
@@ -208,7 +228,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
           </Button>
         )}
         {deleteButtonState && deleteButtonState.visible && (
-          <Button icon="delete" disabled={deleteButtonState.disabled}>
+          <Button icon="delete" disabled={deleteButtonState.disabled} onClick={this.onDeletes}>
             删除
           </Button>
         )}
@@ -225,7 +245,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       tableCardState: { rows, rowCount, pageIndex, pageSize, selectedRows },
       fetchListLoading,
       fetchDetailLoading,
-      tableCardConfig: { columns, rowKey, scroll },
+      tableCardConfig: { columns, rowKey, scroll, pagination },
       renderEditor,
     } = this.props;
 
@@ -238,6 +258,19 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       }),
     };
 
+    let tablePagination: PaginationConfig | boolean = {};
+    if (pagination === false) {
+      tablePagination = false;
+    } else {
+      tablePagination = {
+        current: pageIndex,
+        total: rowCount,
+        showSizeChanger: true,
+        pageSize,
+        hideOnSinglePage: pagination ? pagination.hideOnSinglePage : true,
+      };
+    }
+
     return (
       <Fragment>
         {this.renderCondition()}
@@ -245,7 +278,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         <Table
           columns={columns}
           dataSource={rows}
-          pagination={{ current: pageIndex, total: rowCount, showSizeChanger: true, pageSize }}
+          pagination={tablePagination}
           onChange={this.onPaginationChange}
           loading={fetchListLoading || fetchDetailLoading}
           rowKey={rowKey}

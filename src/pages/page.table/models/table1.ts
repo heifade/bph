@@ -29,6 +29,8 @@ const model = mergeModel(createBaseModel(NAMESPACE_TABLE1), {
       console.log('onDownload', action.payload);
       yield undefined;
     },
+
+
   },
   reducers: {},
 });

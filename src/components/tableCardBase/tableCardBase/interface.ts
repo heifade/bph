@@ -20,6 +20,10 @@ export interface ITableCardBaseConfig {
   namespace: string;
   columns: Array<ColumnProps<any>>;
   /**
+   * 是否在组件加载完成后自动调用search方法，默认: true
+   */
+  autoSearch?: boolean;
+  /**
    * 数据主键字段
    */
   rowKey: string;
@@ -47,4 +51,15 @@ export interface ITableCardBaseConfig {
    * 表格滚动
    */
   scroll?: { x?: number; y?: number };
+  /**
+   * 分页条
+   */
+  pagination?:
+    | {
+        /**
+         * 只有一页时是否隐藏分页器
+         */
+        hideOnSinglePage?: boolean;
+      }
+    | false;
 }

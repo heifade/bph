@@ -1,5 +1,5 @@
 export default {
-  rowCount: 54,
+  rowCount: 35,
   rows: [
     {
       diagramConfigurationId: '461689cd08334def8f311b4da52ad1ac',

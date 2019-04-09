@@ -45,6 +45,7 @@ export class EditorBase<T extends IEditorBaseProps> extends PureComponent<T> {
       editorConfig: { namespace, title },
       saveLoading,
       width,
+      padding,
       children,
     } = this.props;
 
@@ -56,6 +57,7 @@ export class EditorBase<T extends IEditorBaseProps> extends PureComponent<T> {
         visible={editorVisible}
         saveLoading={saveLoading}
         width={width}
+        padding={padding}
       >
         {children}
       </EditModal>

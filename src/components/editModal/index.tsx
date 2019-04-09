@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Modal, Button } from 'antd';
 
 export interface IEditModalProps {
+  padding?: number;
   width?: number;
   title: string;
   visible: boolean;
@@ -38,17 +39,18 @@ export class EditModal extends PureComponent<IEditModalProps> {
   };
 
   render() {
-    const { width, title, visible, children } = this.props;
+    const { width, padding, title, visible, children } = this.props;
 
     return (
       <Modal
         width={width || 640}
-        bodyStyle={{ padding: '30px 40px' }}
+        bodyStyle={{ padding: padding || 24 }}
         destroyOnClose={true}
         title={title}
         visible={visible}
         footer={this.renderFooter()}
         onCancel={this.onClose}
+        maskClosable={false}
       >
         {children}
       </Modal>

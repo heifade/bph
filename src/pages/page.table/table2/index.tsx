@@ -24,16 +24,16 @@ interface IProps extends ITableCardBaseProps {}
 export class Table2 extends React.PureComponent<IProps> {
   private tableCardBaseRef = React.createRef<TableCardBase<any>>();
 
-  renderCondition = () => {
-    const conditionItems: IConditionItem[] = [
-      ConditionItem({ title: '条件1', field: 'keyword' }),
-      ConditionItem({ title: '条件2', field: 'keyword2' }),
-      ConditionItem({ title: '条件3', field: 'keyword3' }),
-      ConditionItem({ title: '条件4', field: 'keyword4' }),
-      undefined,
-    ];
-    return conditionItems;
-  };
+  // renderCondition = () => {
+  //   const conditionItems: IConditionItem[] = [
+  //     ConditionItem({ title: '条件1', field: 'keyword' }),
+  //     ConditionItem({ title: '条件2', field: 'keyword2' }),
+  //     ConditionItem({ title: '条件3', field: 'keyword3' }),
+  //     ConditionItem({ title: '条件4', field: 'keyword4' }),
+  //     undefined,
+  //   ];
+  //   return conditionItems;
+  // };
   renderActionBar() {
     return [<Button key="check">审核</Button>];
   }
@@ -49,12 +49,12 @@ export class Table2 extends React.PureComponent<IProps> {
       addButtonState: { visible: true, disabled: false },
       downloadButtonState: { visible: true, disabled: false },
       deleteButtonState: { visible: true, disabled: false },
-      scroll: { x: 1500 },
+      scroll: { x: 1500, y: 300 },
       columns: [
         {
           title: '组态名称',
           dataIndex: 'name',
-          width: 105,
+          width: 350,
           fixed: 'left',
         },
         {
