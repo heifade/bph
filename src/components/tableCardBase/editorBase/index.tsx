@@ -20,7 +20,7 @@ export class EditorBase<T extends IEditorBaseProps> extends PureComponent<T> {
   onSave = () => {
     const {
       form,
-      tableCardState: { editorDoType },
+      tableCardState: { editorDoType, editorData },
       editorConfig: { namespace },
       dispatch,
     } = this.props;
@@ -32,7 +32,8 @@ export class EditorBase<T extends IEditorBaseProps> extends PureComponent<T> {
       dispatch({
         type: `${namespace}/onSaveBase`,
         payload: {
-          data: fieldsValue,
+          fieldsValue,
+          editorData,
           doType: editorDoType,
         },
       });

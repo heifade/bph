@@ -21,6 +21,9 @@ const model = mergeModel(createBaseModel(NAMESPACE_TABLE1), {
       yield call(delay, 500);
       return mockdata.rows[0];
     },
+    *onSave(action: IAction, { call, put }) {
+      console.log('onSave', action.payload);
+    },
     *onDelete(action: IAction, { call, put }) {
       console.log('onDelete', action.payload);
       yield undefined;
