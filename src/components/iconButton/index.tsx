@@ -1,5 +1,6 @@
 import React from 'react';
-import { Icon, Button, Tooltip } from 'antd';
+import { Icon, Tooltip } from 'antd';
+import '../textButton/styles.less';
 
 interface IProps {
   onClick: (data: any) => void;
@@ -8,21 +9,26 @@ interface IProps {
   title?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
+  disabled?: boolean;
 }
 
 export default class IconButton extends React.PureComponent<IProps> {
   onClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
-    const { data, onClick } = this.props;
-    if (onClick) {
+    const { data, onClick, disabled } = this.props;
+    if (onClick && !disabled) {
       onClick(data);
     }
   };
   render() {
-    const { title, icon, style, children } = this.props;
+    const { title, icon, style, children, disabled } = this.props;
     return (
       <Tooltip title={title}>
-        <a onClick={this.onClick} style={{ fontSize: 16, ...style }}>
+        <a
+          onClick={this.onClick}
+          style={{ fontSize: 16, ...style }}
+          className={disabled ? 'bph_disabled_color' : ''}
+        >
           <Icon type={icon} />
           {children}
         </a>

@@ -15,6 +15,7 @@ import { Editor } from './editor';
 import { Button } from 'antd';
 import { IHash } from '@/interface';
 import { NAMESPACE_TABLE2 } from '../models/table2';
+import IconButton from '@/components/iconButton';
 
 interface IProps extends ITableCardBaseProps {}
 
@@ -118,6 +119,7 @@ export class Table1 extends React.PureComponent<IProps> {
                 <TextButton data={[record]} onClick={onDelete}>
                   删除
                 </TextButton>
+                <IconButton data={record} icon="edit" disabled={index === 0} />
               </React.Fragment>
             );
           },
