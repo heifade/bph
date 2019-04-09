@@ -23,6 +23,9 @@ export default {
   plugins,
   treeShaking: true,
   hash: true,
+  theme: {
+    'disabled-color': '#333',
+  },
   ignoreMomentLocale: true,
   lessLoaderOptions: {
     javascriptEnabled: true,

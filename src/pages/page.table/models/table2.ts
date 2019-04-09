@@ -11,23 +11,24 @@ interface ITable2State {
 
 const model = mergeModel(createBaseModel(NAMESPACE_TABLE2), {
   namespace: NAMESPACE_TABLE2,
-  state: {
-    keywords: '',
-  },
+  state: {},
   effects: {
     *onFetchList(action: IAction, { call, put, select }) {
       const keywords = yield select(state => state[NAMESPACE_TABLE2].keywords);
-      // console.log('onFetchList 2', keywords);
       return mockdata;
     },
     *onFetchDetail(action: IAction, { call, put }) {
       return mockdata.rows[0];
     },
     *onShowTable(action: IAction, { call, put }) {
-      // state.keywords = action.payload.diagramConfigurationId;
-      // state.visible = true;
       yield yield put({
-        type: 'onFetchList',
+        type: 'onSetConditionExtend',
+        payload: {
+          diagramConfigurationId2: action.payload.diagramConfigurationId,
+        },
+      });
+      yield yield put({
+        type: 'onSearchBase',
         payload: {
           data: action.payload,
         },

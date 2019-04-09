@@ -12,11 +12,12 @@ export function createBaseModel(namespace: string) {
       editorVisible: false,
       editorData: null,
       pageDataList: [],
-      pageIndex: 0,
+      pageIndex: Config.pagination.startPageIndex,
       pageSize: 10,
       totalCount: 0,
       selectedRows: [],
       condition: {},
+      conditionExtend: {},
       bodyClientWidth: 0,
       bodyClientHeight: 0,
       sorts: [],
@@ -37,10 +38,28 @@ export function createBaseModel(namespace: string) {
         });
       },
       *onFetchListBase(action: IAction, { call, put, take, select }) {
-        const { condition, pageSize: pageSizeInState, sorts: sortsInState } = yield select(
-          state => state[namespace],
-        );
-        const { pageIndex, pageSize, sorter, crossPageSelect } = action.payload;
+        const {
+          condition,
+          conditionExtend,
+          pageIndex: pageIndexInState,
+          pageSize: pageSizeInState,
+          sorts: sortsInState,
+        } = yield select(state => state[namespace]);
+        const {
+          pageIndex: pageIndexInPayload,
+          pageSize: pageSizeInPayload,
+          sorter,
+          crossPageSelect,
+        } = action.payload;
+
+        let pageSize = pageSizeInState;
+        if (pageSizeInPayload !== undefined && pageSizeInPayload !== null) {
+          pageSize = pageSizeInPayload;
+        }
+        let pageIndex = pageIndexInState;
+        if (pageIndexInPayload !== undefined && pageIndexInPayload !== null) {
+          pageIndex = pageIndexInPayload;
+        }
 
         let sorts = sortsInState || [];
         if (sorter) {
@@ -60,9 +79,10 @@ export function createBaseModel(namespace: string) {
           payload: {
             [Config.pagination.pageIndexFieldName]:
               pageIndex + Config.pagination.startPageIndex - 1,
-            [Config.pagination.pageSizeFieldName]: pageSize || pageSizeInState,
+            [Config.pagination.pageSizeFieldName]: pageSize,
             sorts,
             ...condition,
+            ...conditionExtend,
           },
         });
 
@@ -183,6 +203,10 @@ export function createBaseModel(namespace: string) {
     },
 
     reducers: {
+      // 设置额外的条件
+      onSetConditionExtend(state: ITableCardBaseState, action: IAction) {
+        state.conditionExtend = action.payload;
+      },
       onSaveConditionBase(state: ITableCardBaseState, action: IAction) {
         state.condition = action.payload;
       },

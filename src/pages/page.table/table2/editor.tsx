@@ -26,17 +26,11 @@ export class Editor extends React.PureComponent<IProps> {
           <FormItemInput
             label="编号"
             fieldName="diagramConfigurationId"
-            value={hash.diagramConfigurationId}
+            record={hash}
             form={form}
             required={true}
           />
-          <FormItemInput
-            label="名称"
-            fieldName="name"
-            value={hash.name}
-            form={form}
-            required={true}
-          />
+          <FormItemInput label="名称" fieldName="name" record={hash} form={form} required={true} />
         </Form>
       </EditorBase>
     );

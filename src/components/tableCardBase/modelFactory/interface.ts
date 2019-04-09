@@ -41,6 +41,10 @@ export interface ITableCardBaseState {
    * 条件
    */
   condition: any;
+  /**
+   * 额外的条件
+   */
+  conditionExtend: any;
 
   bodyClientWidth: number;
   bodyClientHeight: number;

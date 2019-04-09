@@ -3,8 +3,20 @@ import { connect } from 'dva';
 import { NAMESPACE_TABLE1 } from '../models/table1';
 import { Form } from 'antd';
 import { FormItemInput, EditorBase, IEditorBaseProps, editorBaseMapStateToProps } from '@/index';
+import { FormItemSelect } from '@/components/formItemSelect';
 
 interface IProps extends IEditorBaseProps {}
+
+const typeList = [
+  {
+    value: 1,
+    label: '类型1',
+  },
+  {
+    value: 2,
+    label: '类型2',
+  },
+];
 
 @connect((pars: any) => {
   return {
@@ -26,24 +38,29 @@ export class Editor extends React.PureComponent<IProps> {
           <FormItemInput
             label="编号"
             fieldName="diagramConfigurationId"
-            value={hash.diagramConfigurationId}
+            record={hash}
             form={form}
             required={true}
             visible={false}
           />
-          <FormItemInput
-            label="名称"
-            fieldName="name"
-            value={hash.name}
+          <FormItemInput label="名称" fieldName="name" record={hash} form={form} required={true} />
+          <FormItemSelect
+            label="类型"
+            fieldName="type"
+            list={typeList}
+            record={hash}
             form={form}
             required={true}
+            // multiple={true}
           />
-          <FormItemInput
-            label="描述"
-            fieldName="desc"
-            value={hash.desc}
+          <FormItemSelect
+            label="类型2"
+            fieldName="type2"
+            list={typeList}
+            record={hash}
             form={form}
             required={true}
+            // multiple={true}
           />
         </Form>
       </EditorBase>

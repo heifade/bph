@@ -1,10 +1,12 @@
 import React from 'react';
 import { Form, Input } from 'antd';
 import { WrappedFormUtils } from 'antd/lib/form/Form';
+import { IHash } from '../../interface';
 
-interface IProps {
+export interface IFormItemInputProps {
   form: WrappedFormUtils;
-  value: any;
+  value?: any;
+  record?: IHash;
   fieldName: string;
   label: string;
   required?: boolean;
@@ -16,11 +18,12 @@ interface IProps {
   layout?: 'vertical' | 'horizontal';
 }
 
-export class FormItemInput extends React.PureComponent<IProps> {
+export class FormItemInput extends React.PureComponent<IFormItemInputProps> {
   render() {
     const {
       form: { getFieldDecorator },
       value,
+      record,
       label,
       fieldName,
       required,
@@ -41,6 +44,11 @@ export class FormItemInput extends React.PureComponent<IProps> {
       };
     }
 
+    let initialValue = record ? record[fieldName] : '';
+    if (value !== undefined) {
+      initialValue = value;
+    }
+
     return (
       <Form.Item
         label={label}
@@ -49,7 +57,7 @@ export class FormItemInput extends React.PureComponent<IProps> {
         colon={colon}
       >
         {getFieldDecorator(fieldName, {
-          initialValue: value,
+          initialValue,
           rules: [
             {
               required,

@@ -242,7 +242,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
 
   render() {
     const {
-      tableCardState: { rows, rowCount, pageIndex, pageSize, selectedRows },
+      tableCardState: { rows, rowCount, pageIndex, pageSize, selectedRows, editorVisible },
       fetchListLoading,
       fetchDetailLoading,
       tableCardConfig: { columns, rowKey, scroll, pagination },
@@ -285,7 +285,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
           rowSelection={rowSelection}
           scroll={scroll}
         />
-        {renderEditor && renderEditor()}
+        {renderEditor && editorVisible && renderEditor()}
       </Fragment>
     );
   }

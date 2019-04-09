@@ -99,14 +99,15 @@ export class Table1 extends React.PureComponent<IProps> {
         {
           title: '操作',
           width: 250,
-          render: record => {
+          render: (text, record, index) => {
             if (!this.tableCardBaseRef.current) {
               return null;
             }
             const { onEdit, onDelete } = this.tableCardBaseRef.current;
+
             return (
               <React.Fragment>
-                <TextButton data={record} onClick={onEdit}>
+                <TextButton data={record} onClick={onEdit} disabled={index === 0}>
                   编辑
                 </TextButton>
                 <Divider type="vertical" />
