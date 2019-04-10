@@ -99,7 +99,7 @@ export class Table1 extends React.PureComponent<IProps> {
         },
         {
           title: '操作',
-          width: 250,
+          width: 350,
           render: (text, record, index) => {
             if (!this.tableCardBaseRef.current) {
               return null;
@@ -119,6 +119,7 @@ export class Table1 extends React.PureComponent<IProps> {
                 <TextButton data={[record]} onClick={onDelete}>
                   删除
                 </TextButton>
+                <Divider type="vertical" />
                 <IconButton data={record} icon="edit" disabled={index === 0} />
               </React.Fragment>
             );
