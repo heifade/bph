@@ -15,7 +15,7 @@ import { Editor } from './editor';
 import { Button } from 'antd';
 import { IHash } from '@/interface';
 import { NAMESPACE_TABLE2 } from '../models/table2';
-import IconButton from '@/components/iconButton';
+import { IconButton } from '@/components/iconButton';
 
 interface IProps extends ITableCardBaseProps {}
 
