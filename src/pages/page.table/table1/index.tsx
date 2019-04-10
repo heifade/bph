@@ -104,12 +104,16 @@ export class Table1 extends React.PureComponent<IProps> {
             if (!this.tableCardBaseRef.current) {
               return null;
             }
-            const { onEdit, onDelete } = this.tableCardBaseRef.current;
+            const { onEdit, onDelete, onCopy } = this.tableCardBaseRef.current;
 
             return (
               <React.Fragment>
                 <TextButton data={record} onClick={onEdit} disabled={index === 0}>
                   编辑
+                </TextButton>
+                <Divider type="vertical" />
+                <TextButton data={record} onClick={onCopy} disabled={index === 0}>
+                  复制
                 </TextButton>
                 <Divider type="vertical" />
                 <TextButton data={record} onClick={this.onOpenNextTable}>

@@ -100,32 +100,33 @@ export function createBaseModel(namespace: string) {
       },
 
       *onOpenDetailBase(action: IAction, { call, put, take, select }) {
+        const { record, type } = action.payload;
         // 调用子类的查询方法
         const data = yield yield put({
           type: 'onFetchDetail',
-          payload: action.payload,
+          payload: record,
         });
         yield put({
           type: 'onEditorVisibleChangedBase',
           payload: {
             editorVisible: true,
             editorData: data, // 从服务端获取到的明细
-            editorDataFromList: action.payload, // 从列表里获取到的数据
-            editorDoType: 'edit',
+            editorDataFromList: record, // 从列表里获取到的数据
+            editorDoType: type,
           },
         });
         yield put({
           type: 'onFetchDetailDone',
           payload: {
             editorData: data, // 从服务端获取到的明细
-            editorDataFromList: action.payload, // 从列表里获取到的数据
+            editorDataFromList: record, // 从列表里获取到的数据
           },
         });
         yield yield put({
           type: 'onAfterOpenDetail',
           payload: {
             editorData: data, // 从服务端获取到的明细
-            editorDataFromList: action.payload, // 从列表里获取到的数据
+            editorDataFromList: record, // 从列表里获取到的数据
           },
         });
       },

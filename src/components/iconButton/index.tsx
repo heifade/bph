@@ -12,7 +12,7 @@ interface IProps {
   disabled?: boolean;
 }
 
-export default class IconButton extends React.PureComponent<IProps> {
+export class IconButton extends React.PureComponent<IProps> {
   onClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
     const { data, onClick, disabled } = this.props;

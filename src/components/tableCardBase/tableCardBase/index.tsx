@@ -57,7 +57,28 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
 
     dispatch({
       type: `${namespace}/onOpenDetailBase`,
-      payload: record,
+      payload: {
+        record,
+        type: 'edit',
+      },
+    });
+  };
+
+  /**
+   * 复制一行
+   */
+  onCopy = (record: IHash) => {
+    const {
+      dispatch,
+      tableCardConfig: { namespace },
+    } = this.props;
+
+    dispatch({
+      type: `${namespace}/onOpenDetailBase`,
+      payload: {
+        record,
+        type: 'add',
+      },
     });
   };
 

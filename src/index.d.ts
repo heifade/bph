@@ -20,3 +20,5 @@ export { IAction, IDispatch, IHash, IHashList } from './interface';
 export { Config } from './config';
 
 export { TextButton } from './components/textButton';
+export { IconButton } from './components/iconButton';
+export { LinkButton } from './components/linkButton';

@@ -10,7 +10,7 @@ interface IProps {
   children?: React.ReactNode;
 }
 
-export default function LinkButton(props: IProps) {
+export function LinkButton(props: IProps) {
   return (
     <Tooltip title={props.title}>
       <Link to={props.url}>
