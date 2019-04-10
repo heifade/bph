@@ -15,7 +15,7 @@ export {
 } from './components/tableCardBase';
 
 export { FormItemInput } from './components/formItemInput';
-
+export { FormItemSelect } from './components/formItemSelect';
 export { IAction, IDispatch, IHash, IHashList } from './interface';
 export { Config } from './config';
 
