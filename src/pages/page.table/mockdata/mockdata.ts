@@ -47,7 +47,7 @@ export default {
     {
       diagramConfigurationId: 'e5c384364a014d23aea409cf3fe933fa',
       name: '123456789123456789123456789',
-      desc: '123456789123456789123456789123456789123456789123456789123456789123456789123456789',
+      desc: 'aa',
       metadata: '',
       status: 1,
       type: [1, 2],

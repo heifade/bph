@@ -12,6 +12,7 @@ export {
   mergeModel,
   tableCardBaseMapStateToProps,
   editorBaseMapStateToProps,
+  OptionContainer,
 } from './components/tableCardBase';
 
 export { FormItemInput } from './components/formItemInput';

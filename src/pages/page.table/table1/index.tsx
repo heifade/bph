@@ -9,6 +9,7 @@ import {
   ITableCardBaseProps,
   tableCardBaseMapStateToProps,
   TextButton,
+  OptionContainer,
 } from '@/index';
 import { Divider } from 'antd';
 import { Editor } from './editor';
@@ -16,6 +17,7 @@ import { Button } from 'antd';
 import { IHash } from '@/interface';
 import { NAMESPACE_TABLE2 } from '../models/table2';
 import { IconButton } from '@/components/iconButton';
+import { LinkButton } from '@/components/linkButton';
 
 interface IProps extends ITableCardBaseProps {}
 
@@ -105,27 +107,29 @@ export class Table1 extends React.PureComponent<IProps> {
               return null;
             }
             const { onEdit, onDelete, onCopy } = this.tableCardBaseRef.current;
-
             return (
-              <React.Fragment>
-                <TextButton data={record} onClick={onEdit} disabled={index === 0}>
-                  编辑
-                </TextButton>
-                <Divider type="vertical" />
-                <TextButton data={record} onClick={onCopy} disabled={index === 0}>
-                  复制
-                </TextButton>
-                <Divider type="vertical" />
-                <TextButton data={record} onClick={this.onOpenNextTable}>
-                  打开关联表格
-                </TextButton>
-                <Divider type="vertical" />
-                <TextButton data={[record]} onClick={onDelete}>
-                  删除
-                </TextButton>
-                <Divider type="vertical" />
-                <IconButton data={record} icon="edit" disabled={index === 0} />
-              </React.Fragment>
+              <OptionContainer>
+                <OptionContainer splitLine={false}>
+                  <TextButton data={record} onClick={onEdit} disabled={index === 0}>
+                    编辑
+                  </TextButton>
+                  <TextButton data={record} onClick={onCopy} disabled={index === 0}>
+                    复制
+                  </TextButton>
+                  <TextButton data={record} onClick={this.onOpenNextTable}>
+                    打开关联表格
+                  </TextButton>
+                </OptionContainer>
+                <OptionContainer splitLine={true}>
+                  <TextButton data={[record]} onClick={onDelete}>
+                    删除
+                  </TextButton>
+                  <IconButton data={record} icon="edit" disabled={index === 0} />
+                  <LinkButton url="/" disabled={index === 0}>
+                    首页
+                  </LinkButton>
+                </OptionContainer>
+              </OptionContainer>
             );
           },
         },

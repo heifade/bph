@@ -5,3 +5,4 @@ export { ConditionItem, IConditionItem } from './conditionItem';
 export { EditorBase, IEditorBaseProps } from './editorBase';
 export { tableCardBaseMapStateToProps } from './tableCardBase/mapStateToProps';
 export { editorBaseMapStateToProps } from './editorBase/mapStateToProps';
+export { OptionContainer } from './optionContainer';
