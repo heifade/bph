@@ -13,7 +13,7 @@ export default class Test extends React.PureComponent<IProps> {
     return (
       <React.Fragment>
         <Table1 />
-        <Table2 />
+        {/* <Table2 /> */}
       </React.Fragment>
     );
   }

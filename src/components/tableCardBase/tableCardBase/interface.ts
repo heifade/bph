@@ -60,6 +60,12 @@ export interface ITableCardBaseConfig {
          * 只有一页时是否隐藏分页器
          */
         hideOnSinglePage?: boolean;
+        position?: 'flex-start' | 'flex-end';
       }
     | false;
+
+  /**
+   * 是否充满父节点
+   */
+  filledParentNode?: boolean;
 }

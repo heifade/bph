@@ -62,23 +62,26 @@ export class Table1 extends React.PureComponent<IProps> {
       addButtonState: { visible: true, disabled: false },
       downloadButtonState: { visible: true, disabled: false },
       deleteButtonState: { visible: true, disabled: false },
-      scroll: { x: 1500, y: 300 },
+      scroll: { y: 200 },
       crossPageSelect: true,
-      // pagination: false,
+      pagination: {
+        position: 'flex-start',
+      },
+      filledParentNode: true,
       autoSearch: true,
       columns: [
         {
           title: '组态编号',
           dataIndex: 'diagramConfigurationId',
           width: 300,
-          fixed: 'left',
+          // fixed: 'left',
           sorter: true,
         },
         {
           title: '组态名称',
           dataIndex: 'name',
           width: 300,
-          fixed: 'left',
+          // fixed: 'left',
           sorter: true,
         },
         {

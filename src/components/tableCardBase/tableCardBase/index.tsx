@@ -1,16 +1,25 @@
 import React, { PureComponent, Fragment } from 'react';
 import { IHashList } from '../../../interface/iHashList';
 import { PaginationConfig, SorterResult, TableCurrentDataSource } from 'antd/es/table';
-import { Table, Button } from 'antd';
+import { Table, Button, Pagination } from 'antd';
 import { IHash } from '../../../interface/iHash';
 import debounce from 'lodash/debounce';
 import { Condition } from '../condition';
 import { ITableCardBaseProps, ITableCardBaseConfig } from './interface';
 import { ActionBar } from '../actionBar';
+import './styles.less';
 
 export { ITableCardBaseProps, ITableCardBaseConfig };
 
-export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<T> {
+interface IState {
+  tableScrollY: number;
+}
+
+export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<T, IState> {
+  private divTable = React.createRef<HTMLDivElement>();
+  state = {
+    tableScrollY: 300,
+  };
   onSearch = (condition?: IHash) => {
     const {
       dispatch,
@@ -131,8 +140,8 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   };
 
   componentDidMount() {
-    // window.addEventListener('resize', this.onResize);
-    // this.onResize();
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
 
     const {
       renderCondition,
@@ -144,10 +153,10 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   }
 
   componentWillUnmount() {
-    // window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('resize', this.onResize);
   }
 
-  onPaginationChange = (
+  onTableChange = (
     pars: PaginationConfig,
     filters: Record<React.ReactText, string[]>,
     sorter: SorterResult<IHash>,
@@ -163,6 +172,20 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         sorter,
         pageIndex: pars.current,
         pageSize: pars.pageSize,
+        crossPageSelect,
+      },
+    });
+  };
+  onPaginationChange = (current: number, pageSize?: number | undefined) => {
+    const {
+      dispatch,
+      tableCardConfig: { namespace, crossPageSelect },
+    } = this.props;
+    dispatch({
+      type: `${namespace}/onFetchListBase`,
+      payload: {
+        pageIndex: current,
+        pageSize,
         crossPageSelect,
       },
     });
@@ -203,18 +226,32 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   };
 
   onResize = debounce(() => {
-    const {
-      dispatch,
-      tableCardConfig: { namespace },
-    } = this.props;
-    dispatch({
-      type: `${namespace}/onResizeBase`,
-      payload: {
-        clientWidth: document.body.clientWidth,
-        clientHeight: document.body.clientHeight,
-      },
-    });
+    // const {
+    //   dispatch,
+    //   tableCardConfig: { namespace },
+    // } = this.props;
+    // dispatch({
+    //   type: `${namespace}/onResizeBase`,
+    //   payload: {
+    //     clientWidth: document.body.clientWidth,
+    //     clientHeight: document.body.clientHeight,
+    //   },
+    // });
+
+    this.onCondigionCollapsed();
   }, 300);
+
+  onCondigionCollapsed = () => {
+    const {
+      tableCardConfig: { filledParentNode },
+    } = this.props;
+    if (filledParentNode) {
+      const header: any = document.querySelector('.bph_tablecardbase_frame .ant-table-thead');
+      this.setState({
+        tableScrollY: this.divTable.current!.offsetHeight - (header ? header.offsetHeight : 0) - 10,
+      });
+    }
+  };
 
   renderCondition() {
     const {
@@ -229,6 +266,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
           downloadButtonState={downloadButtonState}
           autoSearch={autoSearch}
           conditionItems={renderCondition()}
+          onCollapsed={this.onCondigionCollapsed}
         />
       );
     }
@@ -266,7 +304,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       tableCardState: { rows, rowCount, pageIndex, pageSize, selectedRows, editorVisible },
       fetchListLoading,
       fetchDetailLoading,
-      tableCardConfig: { columns, rowKey, scroll, pagination },
+      tableCardConfig: { columns, rowKey, scroll, pagination, filledParentNode },
       renderEditor,
     } = this.props;
 
@@ -279,35 +317,80 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       }),
     };
 
-    let tablePagination: PaginationConfig | boolean = {};
-    if (pagination === false) {
-      tablePagination = false;
-    } else {
-      tablePagination = {
-        current: pageIndex,
-        total: rowCount,
-        showSizeChanger: true,
-        pageSize,
-        hideOnSinglePage: pagination ? pagination.hideOnSinglePage : true,
-      };
+    let nScroll = scroll;
+
+    if (filledParentNode) {
+      if (scroll) {
+        nScroll!.y = this.state.tableScrollY;
+      } else {
+        nScroll = {
+          y: this.state.tableScrollY,
+        };
+      }
     }
 
-    return (
-      <Fragment>
-        {this.renderCondition()}
-        {this.renderActionBar()}
-        <Table
-          columns={columns}
-          dataSource={rows}
-          pagination={tablePagination}
-          onChange={this.onPaginationChange}
-          loading={fetchListLoading || fetchDetailLoading}
-          rowKey={rowKey}
-          rowSelection={rowSelection}
-          scroll={scroll}
-        />
-        {renderEditor && editorVisible && renderEditor()}
-      </Fragment>
+    const tableComponent = (
+      <Table
+        columns={columns}
+        dataSource={rows}
+        pagination={false}
+        onChange={this.onTableChange}
+        loading={fetchListLoading || fetchDetailLoading}
+        rowKey={rowKey}
+        rowSelection={rowSelection}
+        scroll={nScroll}
+      />
     );
+
+    const paginationComponent = (
+      <Pagination
+        total={rowCount}
+        current={pageIndex}
+        showSizeChanger={true}
+        pageSize={pageSize}
+        hideOnSinglePage={pagination ? pagination.hideOnSinglePage : true}
+        onChange={this.onPaginationChange}
+        onShowSizeChange={this.onPaginationChange}
+      />
+    );
+
+    if (filledParentNode) {
+      return (
+        <div className={'bph_tablecardbase_frame'}>
+          {this.renderCondition()}
+          {this.renderActionBar()}
+          <div ref={this.divTable} className={'bph_tablecardbase_frame_table'}>
+            {tableComponent}
+          </div>
+          {pagination !== false && (
+            <div
+              className={'bph_tablecardbase_frame_pagination'}
+              style={{ justifyContent: pagination ? pagination.position : 'flex-end' }}
+            >
+              {paginationComponent}
+            </div>
+          )}
+
+          {renderEditor && editorVisible && renderEditor()}
+        </div>
+      );
+    } else {
+      return (
+        <Fragment>
+          {this.renderCondition()}
+          {this.renderActionBar()}
+          {tableComponent}
+          {pagination !== false && (
+            <div
+              className="bph_tablecardbase_frame_pagination"
+              style={{ justifyContent: pagination ? pagination.position : 'flex-end' }}
+            >
+              {paginationComponent}
+            </div>
+          )}
+          {renderEditor && editorVisible && renderEditor()}
+        </Fragment>
+      );
+    }
   }
 }

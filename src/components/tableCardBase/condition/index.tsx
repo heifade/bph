@@ -15,6 +15,10 @@ interface IProps extends FormComponentProps {
    * 是否在组件加载完成后自动调用search方法，默认: true
    */
   autoSearch?: boolean;
+  /**
+   * 条件折叠与否变化时
+   */
+  onCollapsed?: (isCollapsed: boolean) => void;
 }
 
 class Component extends React.PureComponent<IProps> {
@@ -56,9 +60,17 @@ class Component extends React.PureComponent<IProps> {
     }
   };
   onCollapsed = () => {
-    this.setState({
-      isCollapsed: !this.state.isCollapsed,
-    });
+    this.setState(
+      {
+        isCollapsed: !this.state.isCollapsed,
+      },
+      () => {
+        const { onCollapsed } = this.props;
+        if (onCollapsed) {
+          onCollapsed(!this.state.isCollapsed);
+        }
+      },
+    );
   };
   componentDidMount() {
     const { autoSearch } = this.props;
