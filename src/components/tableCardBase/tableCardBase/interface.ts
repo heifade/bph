@@ -3,6 +3,7 @@ import { ColumnProps } from 'antd/es/table';
 import { ITableCardBaseState } from '../modelFactory/interface';
 import { IConditionItem } from '../conditionItem/index';
 import { IActionButtonState } from '../actionBar/interface';
+import { IHash } from '../../../interface/iHash';
 
 export interface ITableCardBaseProps {
   fetchListLoading: boolean;
@@ -68,4 +69,8 @@ export interface ITableCardBaseConfig {
    * 是否充满父节点
    */
   filledParentNode?: boolean;
+  /**
+   * 设置行属性
+   */
+  onRow?: (record: IHash, index: number) => any;
 }

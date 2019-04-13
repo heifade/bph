@@ -69,38 +69,46 @@ export class Table1 extends React.PureComponent<IProps> {
       },
       filledParentNode: true,
       autoSearch: true,
+      onRow: (record: IHash, index: number) => {
+        return {
+          style: {
+            color: record.achievement < 60 ? '#ff0000' : 'unset',
+          },
+        };
+      },
       columns: [
         {
-          title: '组态编号',
-          dataIndex: 'diagramConfigurationId',
+          title: '编号',
+          dataIndex: 'id',
           width: 300,
           // fixed: 'left',
           sorter: true,
         },
         {
-          title: '组态名称',
+          title: '名称',
           dataIndex: 'name',
           width: 300,
           // fixed: 'left',
           sorter: true,
         },
         {
-          title: '组态描述',
+          title: '成绩',
+          dataIndex: 'achievement',
+          width: 300,
+          // fixed: 'left',
+          sorter: true,
+        },
+        {
+          title: '描述',
           dataIndex: 'desc',
           sorter: true,
         },
         {
           title: '创建时间',
-          dataIndex: 'gmtCreate',
+          dataIndex: 'createDate',
           width: 185,
           sorter: true,
           defaultSortOrder: 'descend',
-        },
-        {
-          title: '修改时间',
-          dataIndex: 'gmtModified',
-          sorter: true,
-          width: 185,
         },
         {
           title: '操作',

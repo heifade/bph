@@ -304,7 +304,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       tableCardState: { rows, rowCount, pageIndex, pageSize, selectedRows, editorVisible },
       fetchListLoading,
       fetchDetailLoading,
-      tableCardConfig: { columns, rowKey, scroll, pagination, filledParentNode },
+      tableCardConfig: { columns, rowKey, scroll, pagination, filledParentNode, onRow },
       renderEditor,
     } = this.props;
 
@@ -339,6 +339,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         rowKey={rowKey}
         rowSelection={rowSelection}
         scroll={nScroll}
+        onRow={onRow}
       />
     );
 
