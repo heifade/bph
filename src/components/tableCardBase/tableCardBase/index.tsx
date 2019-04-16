@@ -363,7 +363,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
           <div ref={this.divTable} className={'bph_tablecardbase_frame_table'}>
             {tableComponent}
           </div>
-          {pagination !== false && (
+          {pagination !== false && rowCount > 0 && (
             <div
               className={'bph_tablecardbase_frame_pagination'}
               style={{ justifyContent: pagination ? pagination.position : 'flex-end' }}
@@ -381,7 +381,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
           {this.renderCondition()}
           {this.renderActionBar()}
           {tableComponent}
-          {pagination !== false && (
+          {pagination !== false && rowCount > 0 && (
             <div
               className="bph_tablecardbase_frame_pagination"
               style={{ justifyContent: pagination ? pagination.position : 'flex-end' }}

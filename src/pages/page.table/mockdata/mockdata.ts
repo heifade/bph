@@ -1,5 +1,5 @@
 export default {
-  rowCount: 35,
+  rowCount: 100,
   rows: [
     {
       id: '1',
