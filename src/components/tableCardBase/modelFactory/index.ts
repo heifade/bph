@@ -278,7 +278,7 @@ export function createBaseModel(namespace: string) {
       onResetBase(state: ITableCardBaseState, action: IAction) {
         state.pageIndex = Config.pagination.startPageIndex;
         state.condition = { ...state.initCondition };
-        state.sorts = { ...state.initSorts };
+        state.sorts = [...state.initSorts];
       },
     },
   };
@@ -287,7 +287,7 @@ export function createBaseModel(namespace: string) {
 export function mergeModel(baseModel: IModel, model: IModel) {
   const state: any = { ...baseModel.state, ...model.state };
   state.initCondition = { ...state.condition };
-  state.initSorts = { ...state.sorts };
+  state.initSorts = [...state.sorts];
   const effects = { ...baseModel.effects, ...model.effects };
   const reducers = { ...baseModel.reducers, ...model.reducers };
   return {
