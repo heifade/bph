@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { NAMESPACE_TABLE1 } from '../models/table1';
+import { NAMESPACE_TABLE1 } from './model';
 import {
   TableCardBase,
   ITableCardBaseConfig,
@@ -9,15 +9,10 @@ import {
   ITableCardBaseProps,
   tableCardBaseMapStateToProps,
   TextButton,
-  OptionContainer,
 } from '@/index';
-import { Divider } from 'antd';
-import { Editor } from './editor';
 import { Button } from 'antd';
 import { IHash } from '@/interface';
-import { NAMESPACE_TABLE2 } from '../models/table2';
-import { IconButton } from '@/components/iconButton';
-import { LinkButton } from '@/components/linkButton';
+import { router } from 'umi';
 
 interface IProps extends ITableCardBaseProps {}
 
@@ -26,15 +21,18 @@ interface IProps extends ITableCardBaseProps {}
     ...tableCardBaseMapStateToProps(pars, NAMESPACE_TABLE1),
   };
 })
-export class Table1 extends React.PureComponent<IProps> {
+export default class UserTable extends React.PureComponent<IProps> {
   private tableCardBaseRef = React.createRef<TableCardBase<any>>();
 
   renderCondition = () => {
+    const {
+      tableCardState: { condition },
+    } = this.props;
     const conditionItems: IConditionItem[] = [
-      ConditionItem({ title: '条件名称1', field: 'keyword' }),
-      ConditionItem({ title: '条件名称2', field: 'keyword2' }),
-      ConditionItem({ title: '条件名称3', field: 'keyword3' }),
-      ConditionItem({ title: '条件名称4', field: 'keyword4' }),
+      ConditionItem({ title: '条件名称1', field: 'keyword', initialValue: condition.keyword }),
+      ConditionItem({ title: '条件名称2', field: 'keyword2', initialValue: condition.keyword2 }),
+      ConditionItem({ title: '条件名称3', field: 'keyword3', initialValue: condition.keyword3 }),
+      ConditionItem({ title: '条件名称4', field: 'keyword4', initialValue: condition.keyword4 }),
       undefined,
     ];
     return conditionItems;
@@ -44,15 +42,11 @@ export class Table1 extends React.PureComponent<IProps> {
   }
 
   renderEditor() {
-    return <Editor />;
+    return null;
   }
 
-  onOpenNextTable = (record: IHash) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: `${NAMESPACE_TABLE2}/onShowTable`,
-      payload: record,
-    });
+  onEdit = (record: any) => {
+    router.push('/user/editor');
   };
 
   render() {
@@ -117,30 +111,10 @@ export class Table1 extends React.PureComponent<IProps> {
             if (!this.tableCardBaseRef.current) {
               return null;
             }
-            const { onEdit, onDelete, onCopy } = this.tableCardBaseRef.current;
             return (
-              <OptionContainer>
-                <OptionContainer splitLine={false}>
-                  <TextButton data={record} onClick={onEdit} disabled={index === 0}>
-                    编辑
-                  </TextButton>
-                  <TextButton data={record} onClick={onCopy} disabled={index === 0}>
-                    复制
-                  </TextButton>
-                  <TextButton data={record} onClick={this.onOpenNextTable}>
-                    打开关联表格
-                  </TextButton>
-                </OptionContainer>
-                <OptionContainer splitLine={true}>
-                  <TextButton data={[record]} onClick={onDelete}>
-                    删除
-                  </TextButton>
-                  <IconButton data={record} icon="edit" disabled={index === 0} />
-                  <LinkButton url="/" disabled={index === 0}>
-                    首页
-                  </LinkButton>
-                </OptionContainer>
-              </OptionContainer>
+              <TextButton data={record} onClick={this.onEdit}>
+                编辑
+              </TextButton>
             );
           },
         },

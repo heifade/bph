@@ -42,6 +42,10 @@ export interface ITableCardBaseState {
    */
   condition: any;
   /**
+   * 条件默认值
+   */
+  initCondition: any;
+  /**
    * 额外的条件
    */
   conditionExtend: any;

@@ -35,6 +35,18 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       },
     });
   };
+  onRefresh = () => {
+    const {
+      dispatch,
+      tableCardConfig: { namespace, crossPageSelect },
+    } = this.props;
+    dispatch({
+      type: `${namespace}/onRefreshBase`,
+      payload: {
+        crossPageSelect,
+      },
+    });
+  };
 
   onDeletes = () => {
     const {
@@ -91,24 +103,6 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     });
   };
 
-  // /**
-  //  * 打开编辑框，进行编辑。
-  //  */
-  // onEdit = (editorData: IHash) => {
-  //   const {
-  //     dispatch,
-  //     tableCardConfig: { namespace },
-  //   } = this.props;
-  //   dispatch({
-  //     type: `${namespace}/onEditorVisibleChangedBase`,
-  //     payload: {
-  //       editorVisible: true,
-  //       editorData,
-  //       editorDoType: 'edit',
-  //     },
-  //   });
-  // };
-
   onAdd = () => {
     const {
       dispatch,
@@ -148,7 +142,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       tableCardConfig: { autoSearch },
     } = this.props;
     if (!renderCondition && autoSearch !== false) {
-      this.onSearch(undefined);
+      this.onRefresh();
     }
   }
 
@@ -226,18 +220,6 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   };
 
   onResize = debounce(() => {
-    // const {
-    //   dispatch,
-    //   tableCardConfig: { namespace },
-    // } = this.props;
-    // dispatch({
-    //   type: `${namespace}/onResizeBase`,
-    //   payload: {
-    //     clientWidth: document.body.clientWidth,
-    //     clientHeight: document.body.clientHeight,
-    //   },
-    // });
-
     this.onCondigionCollapsed();
   }, 300);
 
@@ -261,6 +243,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     if (renderCondition) {
       return (
         <Condition
+          onRefresh={this.onRefresh}
           onSearch={this.onSearch}
           onDownload={this.onDownload}
           downloadButtonState={downloadButtonState}

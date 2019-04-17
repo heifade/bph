@@ -1,3 +1,5 @@
+import { pageRoutes } from './router';
+
 // https://umijs.org/config/
 
 const plugins = [
@@ -22,6 +24,7 @@ export default {
   // add for transfer to umi
   plugins,
   treeShaking: true,
+  routes: pageRoutes,
   hash: true,
   theme: {
     'disabled-color': '#333',

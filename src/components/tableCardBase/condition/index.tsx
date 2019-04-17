@@ -8,6 +8,7 @@ import { IActionButtonState } from '../actionBar/interface';
 
 interface IProps extends FormComponentProps {
   conditionItems: IConditionItem[];
+  onRefresh: () => void;
   onSearch: (condition: IHash) => void;
   onDownload: (condition: IHash) => void;
   downloadButtonState?: IActionButtonState;
@@ -34,6 +35,12 @@ class Component extends React.PureComponent<IProps> {
         }
         onSearch(fieldsValue);
       });
+    }
+  };
+  onRefresh = () => {
+    const { onRefresh, form } = this.props;
+    if (onRefresh) {
+      onRefresh();
     }
   };
   onDownload = () => {
@@ -75,7 +82,7 @@ class Component extends React.PureComponent<IProps> {
   componentDidMount() {
     const { autoSearch } = this.props;
     if (autoSearch !== false) {
-      this.onSearch();
+      this.onRefresh();
     }
   }
   render() {

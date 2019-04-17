@@ -275,12 +275,17 @@ export function createBaseModel(namespace: string) {
         state.bodyClientWidth = clientWidth;
         state.bodyClientHeight = clientHeight;
       },
+      onResetBase(state: ITableCardBaseState, action: IAction) {
+        state.pageIndex = Config.pagination.startPageIndex;
+        state.condition = { ...state.initCondition };
+      },
     },
   };
 }
 
 export function mergeModel(baseModel: IModel, model: IModel) {
-  const state = { ...baseModel.state, ...model.state };
+  const state: any = { ...baseModel.state, ...model.state };
+  state.initCondition = { ...state.condition };
   const effects = { ...baseModel.effects, ...model.effects };
   const reducers = { ...baseModel.reducers, ...model.reducers };
   return {
