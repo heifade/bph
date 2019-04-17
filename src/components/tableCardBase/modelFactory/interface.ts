@@ -24,7 +24,11 @@ export interface ITableCardBaseState {
   /**
    * 排序
    */
-  sorts: { field: 'name'; type: 'ASC' | 'DESC' }[];
+  sorts: { field: ''; type: 'ASC' | 'DESC' }[];
+  /**
+   * 排序默认值
+   */
+  initSorts: { field: ''; type: 'ASC' | 'DESC' }[];
   /**
    * 当前页数据
    */

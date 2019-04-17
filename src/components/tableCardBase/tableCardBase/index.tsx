@@ -266,12 +266,12 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       <ActionBar>
         {addButtonState && addButtonState.visible && (
           <Button icon="plus" onClick={this.onAdd}>
-            新增
+            {addButtonState.label || '新增'}
           </Button>
         )}
         {deleteButtonState && deleteButtonState.visible && (
           <Button icon="delete" disabled={deleteButtonState.disabled} onClick={this.onDeletes}>
-            删除
+            {deleteButtonState.label || '删除'}
           </Button>
         )}
         {renderActionBar && renderActionBar()}
@@ -284,7 +284,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
 
   render() {
     const {
-      tableCardState: { rows, rowCount, pageIndex, pageSize, selectedRows, editorVisible },
+      tableCardState: { rows, rowCount, pageIndex, pageSize, selectedRows, editorVisible, sorts },
       fetchListLoading,
       fetchDetailLoading,
       tableCardConfig: { columns, rowKey, scroll, pagination, filledParentNode, onRow },
@@ -309,6 +309,24 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         nScroll = {
           y: this.state.tableScrollY,
         };
+      }
+    }
+
+    if (sorts && sorts.length) {
+      const sort = sorts[0];
+      const c = columns.find(c => c.dataIndex === sort.field);
+      if (c) {
+        columns.map(c => {
+          c.defaultSortOrder = undefined;
+        });
+        switch (sort.type) {
+          case 'ASC':
+            c.defaultSortOrder = 'ascend';
+            break;
+          case 'DESC':
+            c.defaultSortOrder = 'descend';
+            break;
+        }
       }
     }
 

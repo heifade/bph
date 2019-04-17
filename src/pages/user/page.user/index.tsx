@@ -53,7 +53,7 @@ export default class UserTable extends React.PureComponent<IProps> {
     const tableCardConfig: ITableCardBaseConfig = {
       namespace: NAMESPACE_TABLE1,
       rowKey: 'diagramConfigurationId',
-      addButtonState: { visible: true, disabled: false },
+      addButtonState: { visible: true, disabled: false, label: 'add' },
       downloadButtonState: { visible: true, disabled: false },
       deleteButtonState: { visible: true, disabled: false },
       scroll: { y: 200 },
