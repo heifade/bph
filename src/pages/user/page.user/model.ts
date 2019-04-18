@@ -8,7 +8,9 @@ export const NAMESPACE_TABLE1 = 'page.table.card.test.user.table1';
 const model = mergeModel(createBaseModel(NAMESPACE_TABLE1), {
   namespace: NAMESPACE_TABLE1,
   state: {
-    sorts: [{ field: 'gmtCreate', type: 'DESC' }],
+    sorts: [
+      { field: 'createDate', type: 'DESC' }
+    ],
     condition: {
       keyword2: 'default',
     },

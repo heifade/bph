@@ -50,6 +50,7 @@ export function createBaseModel(namespace: string) {
           pageSize: pageSizeInPayload,
           sorter,
           crossPageSelect,
+          pagination,
         } = action.payload;
 
         let pageSize = pageSizeInState;
@@ -73,17 +74,24 @@ export function createBaseModel(namespace: string) {
             : [];
         }
 
+        const fetchListPayload: IHash = {
+          ...condition,
+          ...conditionExtend,
+        };
+        if (pagination !== false) {
+          fetchListPayload[Config.pagination.pageIndexFieldName] =
+            pageIndex + Config.pagination.startPageIndex - 1;
+          fetchListPayload[Config.pagination.pageSizeFieldName] = pageSize;
+        }
+
+        if (sorts && sorts.length) {
+          fetchListPayload.sorts = sorts;
+        }
+
         // 调用子类的查询方法
         const res = yield yield put({
           type: 'onFetchList',
-          payload: {
-            [Config.pagination.pageIndexFieldName]:
-              pageIndex + Config.pagination.startPageIndex - 1,
-            [Config.pagination.pageSizeFieldName]: pageSize,
-            sorts,
-            ...condition,
-            ...conditionExtend,
-          },
+          payload: fetchListPayload,
         });
 
         yield put({
@@ -191,13 +199,16 @@ export function createBaseModel(namespace: string) {
       },
 
       *onRefreshBase(action: IAction, { call, put, select }) {
-        const { pageIndex, pageSize, sorts } = yield select(state => state[namespace]);
+        const { pageIndex, pageSize, sorts } = yield select(s => s[namespace]);
+        const { pagination, crossPageSelect } = action.payload;
         yield put({
           type: 'onFetchListBase',
           payload: {
             pageIndex,
             pageSize,
             sorts,
+            pagination,
+            crossPageSelect,
           },
         });
       },

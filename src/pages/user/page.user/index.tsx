@@ -58,9 +58,10 @@ export default class UserTable extends React.PureComponent<IProps> {
       deleteButtonState: { visible: true, disabled: false },
       scroll: { y: 200 },
       crossPageSelect: true,
-      pagination: {
-        position: 'flex-start',
-      },
+      // pagination: {
+      //   position: 'flex-start',
+      // },
+      pagination: false,
       filledParentNode: true,
       autoSearch: true,
       onRow: (record: IHash, index: number) => {
@@ -102,7 +103,7 @@ export default class UserTable extends React.PureComponent<IProps> {
           dataIndex: 'createDate',
           width: 185,
           sorter: true,
-          defaultSortOrder: 'descend',
+          // defaultSortOrder: 'descend',
         },
         {
           title: '操作',

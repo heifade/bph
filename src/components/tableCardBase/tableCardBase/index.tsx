@@ -23,7 +23,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   onSearch = (condition?: IHash) => {
     const {
       dispatch,
-      tableCardConfig: { namespace, crossPageSelect },
+      tableCardConfig: { namespace, crossPageSelect, pagination },
     } = this.props;
     dispatch({
       type: `${namespace}/onSearchBase`,
@@ -31,6 +31,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         condition,
         pageIndex: 1,
         pageSize: 10,
+        pagination,
         crossPageSelect,
       },
     });
@@ -38,12 +39,13 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   onRefresh = () => {
     const {
       dispatch,
-      tableCardConfig: { namespace, crossPageSelect },
+      tableCardConfig: { namespace, crossPageSelect, pagination },
     } = this.props;
     dispatch({
       type: `${namespace}/onRefreshBase`,
       payload: {
         crossPageSelect,
+        pagination,
       },
     });
   };
@@ -158,8 +160,9 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   ) => {
     const {
       dispatch,
-      tableCardConfig: { namespace, crossPageSelect },
+      tableCardConfig: { namespace, crossPageSelect, pagination },
     } = this.props;
+
     dispatch({
       type: `${namespace}/onFetchListBase`,
       payload: {
@@ -167,6 +170,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         pageIndex: pars.current,
         pageSize: pars.pageSize,
         crossPageSelect,
+        pagination,
       },
     });
   };
@@ -312,19 +316,19 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       }
     }
 
+    columns.map(c => {
+      c.sortOrder = undefined;
+    });
     if (sorts && sorts.length) {
       const sort = sorts[0];
       const c = columns.find(c => c.dataIndex === sort.field);
       if (c) {
-        columns.map(c => {
-          c.defaultSortOrder = undefined;
-        });
         switch (sort.type) {
           case 'ASC':
-            c.defaultSortOrder = 'ascend';
+            c.sortOrder = 'ascend';
             break;
           case 'DESC':
-            c.defaultSortOrder = 'descend';
+            c.sortOrder = 'descend';
             break;
         }
       }
