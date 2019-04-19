@@ -17,6 +17,7 @@ export {
 
 export { FormItemInput } from './components/formItemInput';
 export { FormItemSelect } from './components/formItemSelect';
+export { FormItemSpan } from './components/formItemSpan';
 export { IAction, IDispatch, IHash, IHashList } from './interface';
 export { Config } from './config';
 
