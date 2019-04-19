@@ -97,6 +97,9 @@ export default class UserTable extends React.PureComponent<IProps> {
           title: '描述',
           dataIndex: 'desc',
           sorter: true,
+          render: (text, record, index) => {
+            return <div>{text}</div>;
+          },
         },
         {
           title: '创建时间',

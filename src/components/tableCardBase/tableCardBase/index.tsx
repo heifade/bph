@@ -291,18 +291,20 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       tableCardState: { rows, rowCount, pageIndex, pageSize, selectedRows, editorVisible, sorts },
       fetchListLoading,
       fetchDetailLoading,
-      tableCardConfig: { columns, rowKey, scroll, pagination, filledParentNode, onRow },
+      tableCardConfig: { columns, rowKey, scroll, pagination, filledParentNode, onRow, checkBox },
       renderEditor,
     } = this.props;
 
-    const rowSelection = {
-      selectedRowKeys: selectedRows.map(h => h[rowKey]),
-      onSelect: this.onSelectRow,
-      onSelectAll: this.onSelectAllRows,
-      getCheckboxProps: (record: IHash) => ({
-        disabled: record.disabled,
-      }),
-    };
+    const rowSelection = checkBox
+      ? {
+          selectedRowKeys: selectedRows.map(h => h[rowKey]),
+          onSelect: this.onSelectRow,
+          onSelectAll: this.onSelectAllRows,
+          getCheckboxProps: (record: IHash) => ({
+            disabled: record.disabled,
+          }),
+        }
+      : undefined;
 
     let nScroll = scroll;
 
