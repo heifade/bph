@@ -40,7 +40,7 @@ export class FormItemInput extends React.PureComponent<IFormItemInputProps> {
     if (layout === 'horizontal') {
       formItemLayout = {
         labelCol: { span: 7 },
-        wrapperCol: { span: 13 },
+        wrapperCol: { span: 17 },
       };
     }
 
