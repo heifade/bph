@@ -23,11 +23,17 @@ export class EditorBase<T extends IEditorBaseProps> extends PureComponent<T> {
       tableCardState: { editorDoType, editorData },
       editorConfig: { namespace },
       dispatch,
+      checkBeforeSave,
     } = this.props;
 
     form.validateFields((err, fieldsValue) => {
       if (err) {
         return;
+      }
+      if (checkBeforeSave) {
+        if (!checkBeforeSave(fieldsValue)) {
+          return;
+        }
       }
       dispatch({
         type: `${namespace}/onSaveBase`,
