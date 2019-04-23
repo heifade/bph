@@ -15,7 +15,9 @@ export interface IFormItemInputProps {
   visible?: boolean;
   inputProps?: any;
   colon?: boolean;
+  maxLength?: number;
   layout?: 'vertical' | 'horizontal';
+  rules?: any[];
 }
 
 export class FormItemInput extends React.PureComponent<IFormItemInputProps> {
@@ -33,6 +35,8 @@ export class FormItemInput extends React.PureComponent<IFormItemInputProps> {
       inputProps,
       colon = true,
       layout = 'horizontal',
+      rules = [],
+      maxLength,
     } = this.props;
 
     let formItemLayout = {};
@@ -63,9 +67,17 @@ export class FormItemInput extends React.PureComponent<IFormItemInputProps> {
               required,
               message: `请输入${label}`,
             },
+            ...rules,
           ],
         })(
-          component || <Input placeholder={`请输入${label}`} disabled={disabled} {...inputProps} />,
+          component || (
+            <Input
+              placeholder={`请输入${label}`}
+              disabled={disabled}
+              {...inputProps}
+              maxLength={maxLength}
+            />
+          ),
         )}
       </Form.Item>
     );
