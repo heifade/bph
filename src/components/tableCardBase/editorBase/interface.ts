@@ -9,7 +9,7 @@ export interface IEditorBaseProps extends FormComponentProps {
   width?: number;
   padding?: number;
   editorConfig: IEditorBaseConfig;
-  checkBeforeSave?: (fieldsValue: any) => boolean;
+  onCheckBeforeSubmit?: (fieldsValue: any) => boolean;
 }
 
 export interface IEditorBaseConfig {

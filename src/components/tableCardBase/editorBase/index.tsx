@@ -23,15 +23,15 @@ export class EditorBase<T extends IEditorBaseProps> extends PureComponent<T> {
       tableCardState: { editorDoType, editorData },
       editorConfig: { namespace },
       dispatch,
-      checkBeforeSave,
+      onCheckBeforeSubmit,
     } = this.props;
 
     form.validateFields((err, fieldsValue) => {
       if (err) {
         return;
       }
-      if (checkBeforeSave) {
-        if (!checkBeforeSave(fieldsValue)) {
+      if (onCheckBeforeSubmit) {
+        if (!onCheckBeforeSubmit(fieldsValue)) {
           return;
         }
       }
