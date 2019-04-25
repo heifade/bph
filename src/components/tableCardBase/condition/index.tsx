@@ -10,6 +10,7 @@ interface IProps extends FormComponentProps {
   conditionItems: IConditionItem[];
   onRefresh: () => void;
   onSearch: (condition: IHash) => void;
+  onReset: () => void;
   onDownload: (condition: IHash) => void;
   downloadButtonState?: IActionButtonState;
   /**
@@ -55,15 +56,19 @@ class Component extends React.PureComponent<IProps> {
     }
   };
   onConditionReset = () => {
-    const { onSearch, form } = this.props;
+    const { onReset, form } = this.props;
     form.resetFields();
-    if (onSearch) {
-      form.validateFields((err, fieldsValue) => {
-        if (err) {
-          return;
-        }
-        onSearch(fieldsValue);
-      });
+    // if (onSearch) {
+    //   form.validateFields((err, fieldsValue) => {
+    //     if (err) {
+    //       return;
+    //     }
+    //     onSearch(fieldsValue);
+    //   });
+    // }
+
+    if (onReset) {
+      onReset();
     }
   };
   onCollapsed = () => {

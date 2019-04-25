@@ -36,6 +36,22 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       },
     });
   };
+  onReset = () => {
+    const {
+      dispatch,
+      tableCardConfig: { namespace, crossPageSelect, pagination },
+    } = this.props;
+    dispatch({
+      type: `${namespace}/onSearchBase`,
+      payload: {
+        condition: {},
+        pageIndex: 1,
+        pageSize: 10,
+        pagination,
+        crossPageSelect,
+      },
+    });
+  };
   onRefresh = () => {
     const {
       dispatch,
@@ -249,6 +265,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         <Condition
           onRefresh={this.onRefresh}
           onSearch={this.onSearch}
+          onReset={this.onReset}
           onDownload={this.onDownload}
           downloadButtonState={downloadButtonState}
           autoSearch={autoSearch}

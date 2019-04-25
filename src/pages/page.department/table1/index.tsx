@@ -29,9 +29,12 @@ export class Table1 extends React.PureComponent<IProps> {
   private tableCardBaseRef = React.createRef<TableCardBase<any>>();
 
   renderCondition = () => {
+    const {
+      tableCardState: { condition },
+    } = this.props;
     const conditionItems: IConditionItem[] = [
       ConditionItem({ title: '条件名称1', field: 'keyword', initialValue: '1' }),
-      ConditionItem({ title: '条件名称2', field: 'keyword2' }),
+      ConditionItem({ title: '条件名称2', field: 'keyword2', initialValue: condition.keyword2 }),
       ConditionItem({ title: '条件名称3', field: 'keyword3' }),
       ConditionItem({ title: '条件名称4', field: 'keyword4' }),
       undefined,
