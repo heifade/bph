@@ -2,13 +2,14 @@ import React from 'react';
 import { Form, Input } from 'antd';
 import { WrappedFormUtils } from 'antd/lib/form/Form';
 import { IHash } from '../../interface';
+import { ColProps } from 'antd/lib/grid/col';
 
 export interface IFormItemInputProps {
   form: WrappedFormUtils;
-  value?: any;
+  initialValue?: any;
   record?: IHash;
   fieldName: string;
-  label: string;
+  label?: string;
   required?: boolean;
   component?: any;
   disabled?: boolean;
@@ -16,7 +17,10 @@ export interface IFormItemInputProps {
   inputProps?: any;
   colon?: boolean;
   maxLength?: number;
-  layout?: 'vertical' | 'horizontal';
+  layout?: {
+    labelCol?: ColProps;
+    wrapperCol?: ColProps;
+  };
   rules?: any[];
 }
 
@@ -24,7 +28,7 @@ export class FormItemInput extends React.PureComponent<IFormItemInputProps> {
   render() {
     const {
       form: { getFieldDecorator },
-      value,
+      initialValue,
       record,
       label,
       fieldName,
@@ -34,34 +38,30 @@ export class FormItemInput extends React.PureComponent<IFormItemInputProps> {
       visible = true,
       inputProps,
       colon = true,
-      layout = 'horizontal',
+      layout = {
+        labelCol: { xs: { span: 24 }, sm: { span: 8 }, lg: { span: 6 } },
+        wrapperCol: { xs: { span: 24 }, sm: { span: 16 }, lg: { span: 18 } },
+      },
       rules = [],
       maxLength,
     } = this.props;
 
-    let formItemLayout = {};
-
-    if (layout === 'horizontal') {
-      formItemLayout = {
-        labelCol: { span: 7 },
-        wrapperCol: { span: 17 },
-      };
-    }
-
-    let initialValue = record ? record[fieldName] : '';
-    if (value !== undefined) {
-      initialValue = value;
+    let initValue;
+    if (initialValue !== undefined) {
+      initValue = initialValue;
+    } else {
+      initValue = record ? record[fieldName] : '';
     }
 
     return (
       <Form.Item
         label={label}
-        {...formItemLayout}
+        {...layout}
         style={{ display: visible ? undefined : 'none' }}
         colon={colon}
       >
         {getFieldDecorator(fieldName, {
-          initialValue,
+          initialValue: initValue,
           rules: [
             {
               required,

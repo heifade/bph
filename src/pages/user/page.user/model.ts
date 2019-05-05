@@ -17,25 +17,20 @@ const model = mergeModel(createBaseModel(NAMESPACE_TABLE1), {
   },
   effects: {
     *onFetchList(action: IAction, { call, put }) {
-      console.log('fetch', action.payload);
       yield call(delay, 500);
       return mockdata;
     },
     *onFetchDetail(action: IAction, { call, put }) {
-      console.log(11, action.payload);
       yield call(delay, 500);
       return action.payload;
     },
     *onSave(action: IAction, { call, put }) {
-      console.log('onSave', action.payload);
       yield undefined;
     },
     *onDelete(action: IAction, { call, put }) {
-      console.log('onDelete', action.payload);
       yield undefined;
     },
     *onDownload(action: IAction, { call, put }) {
-      console.log('onDownload', action.payload);
       yield undefined;
     },
   },

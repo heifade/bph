@@ -45,20 +45,22 @@ export class FormItemSelect extends React.PureComponent<IFormItemSelectProps> {
       showValueField,
       allowClear = false,
       multiple = false,
-      value,
+      initialValue,
       record,
       fieldName,
     } = this.props;
 
-    let initialValue = record ? record[fieldName] : [];
-    if (value !== undefined) {
-      initialValue = value || [];
+    let initValue;
+    if (initialValue !== undefined) {
+      initValue = initialValue;
+    } else {
+      initValue = record ? record[fieldName] : [];
     }
 
     return (
       <FormItemInput
         {...this.props}
-        value={initialValue}
+        initialValue={initValue}
         component={
           <Select
             placeholder={`请选择${label}`}

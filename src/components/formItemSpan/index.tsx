@@ -5,15 +5,21 @@ export interface IFormItemSelectProps extends IFormItemInputProps {}
 
 export class FormItemSpan extends React.PureComponent<IFormItemSelectProps> {
   render() {
-    const { value, record, fieldName } = this.props;
+    const { initialValue, record, fieldName } = this.props;
 
-    let initialValue = record ? record[fieldName] : [];
-    if (value !== undefined) {
-      initialValue = value || [];
+    let initValue;
+    if (initialValue !== undefined) {
+      initValue = initialValue;
+    } else {
+      initValue = record ? record[fieldName] : '';
     }
 
     return (
-      <FormItemInput {...this.props} value={initialValue} component={<span>{initialValue}</span>} />
+      <FormItemInput
+        {...this.props}
+        initialValue={initValue}
+        component={<span>{initValue}</span>}
+      />
     );
   }
 }
