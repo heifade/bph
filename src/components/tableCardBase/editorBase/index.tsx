@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { EditModal } from '../../EditModal';
+import { EditModal } from '../../editModal';
 import { IEditorBaseProps, IEditorBaseConfig } from './interface';
 
 export { IEditorBaseProps, IEditorBaseConfig };
