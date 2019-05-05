@@ -1,6 +1,6 @@
 {
   "name": "bph",
-  "version": "0.0.0-beta54",
+  "version": "0.0.0-beta55",
   "license": "MIT",
   "scripts": {
     "start": "umi dev",

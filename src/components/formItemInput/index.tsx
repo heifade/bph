@@ -65,14 +65,14 @@ export class FormItemInput extends React.PureComponent<IFormItemInputProps> {
           rules: [
             {
               required,
-              message: `请输入${label}`,
+              message: `请输入${label || ''}`,
             },
             ...rules,
           ],
         })(
           component || (
             <Input
-              placeholder={`请输入${label}`}
+              placeholder={`请输入${label || ''}`}
               disabled={disabled}
               {...inputProps}
               maxLength={maxLength}
