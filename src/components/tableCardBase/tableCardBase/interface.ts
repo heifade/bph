@@ -62,6 +62,7 @@ export interface ITableCardBaseConfig {
          */
         hideOnSinglePage?: boolean;
         position?: 'flex-start' | 'flex-end';
+        size?: 'small' | '';
       }
     | false;
 
