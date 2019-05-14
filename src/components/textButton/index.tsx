@@ -14,6 +14,7 @@ interface IProps {
 export class TextButton extends React.PureComponent<IProps> {
   onClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
+    e.stopPropagation();
     const { data, onClick, disabled } = this.props;
     if (onClick && !disabled) {
       onClick(data);
