@@ -376,7 +376,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         hideOnSinglePage={pagination ? pagination.hideOnSinglePage : true}
         onChange={this.onPaginationChange}
         onShowSizeChange={this.onPaginationChange}
-        size={pagination ? pagination.size : ''}
+        size={pagination ? pagination.size : 'small'}
       />
     );
 
