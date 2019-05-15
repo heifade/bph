@@ -371,12 +371,13 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       <Pagination
         total={rowCount}
         current={pageIndex}
+        showTotal={(total, range) => `共 ${total} 条`}
         showSizeChanger={true}
         pageSize={pageSize}
         hideOnSinglePage={pagination ? pagination.hideOnSinglePage : true}
         onChange={this.onPaginationChange}
         onShowSizeChange={this.onPaginationChange}
-        size={pagination ? pagination.size : 'small'}
+        size={pagination ? pagination.size || 'small' : 'small'}
       />
     );
 
