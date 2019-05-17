@@ -48,6 +48,7 @@ export class FormItemSelect extends React.PureComponent<IFormItemSelectProps> {
       initialValue,
       record,
       fieldName,
+      disabled,
     } = this.props;
 
     let initValue;
@@ -66,6 +67,7 @@ export class FormItemSelect extends React.PureComponent<IFormItemSelectProps> {
             placeholder={`请选择${label}`}
             allowClear={allowClear}
             mode={multiple ? 'multiple' : undefined}
+            disabled={disabled}
           >
             {haveAllOption && (
               <Select.Option key="all" value="">
