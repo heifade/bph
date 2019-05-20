@@ -13,7 +13,7 @@ export function createBaseModel(namespace: string) {
       editorData: null,
       pageDataList: [],
       pageIndex: Config.pagination.startPageIndex,
-      pageSize: 10,
+      pageSize: Config.pagination.pageSize,
       totalCount: 0,
       selectedRows: [],
       condition: {},

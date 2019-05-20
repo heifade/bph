@@ -7,6 +7,7 @@ import debounce from 'lodash/debounce';
 import { Condition } from '../condition';
 import { ITableCardBaseProps, ITableCardBaseConfig } from './interface';
 import { ActionBar } from '../actionBar';
+import { Config } from '../../../config';
 import './styles.less';
 
 export { ITableCardBaseProps, ITableCardBaseConfig };
@@ -30,7 +31,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       payload: {
         condition,
         pageIndex: 1,
-        pageSize: 10,
+        pageSize: Config.pagination.pageSize,
         pagination,
         crossPageSelect,
       },
@@ -46,7 +47,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       payload: {
         condition: {},
         pageIndex: 1,
-        pageSize: 10,
+        pageSize: Config.pagination.pageSize,
         pagination,
         crossPageSelect,
       },

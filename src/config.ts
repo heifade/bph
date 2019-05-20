@@ -21,5 +21,9 @@ export class Config {
      * 有些项目是 page_size。
      */
     pageSizeFieldName: 'pageSize',
+    /**
+     * 默认分页大小
+     */
+    pageSize: 10,
   };
 }

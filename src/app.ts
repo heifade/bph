@@ -1,3 +1,4 @@
+import { Config } from './config';
 
 export const dva = {
   config: {
@@ -7,3 +8,6 @@ export const dva = {
     },
   },
 };
+
+
+Config.pagination.pageSize = 20;
