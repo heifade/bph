@@ -60,7 +60,7 @@ export class Table1 extends React.PureComponent<IProps> {
   render() {
     const tableCardConfig: ITableCardBaseConfig = {
       namespace: NAMESPACE_TABLE1,
-      rowKey: 'diagramConfigurationId',
+      rowKey: 'id',
       addButtonState: { visible: true, disabled: false },
       downloadButtonState: { visible: true, disabled: false },
       deleteButtonState: { visible: true, disabled: false },
@@ -71,6 +71,7 @@ export class Table1 extends React.PureComponent<IProps> {
       },
       filledParentNode: true,
       autoSearch: true,
+      checkBox: true,
       onRow: (record: IHash, index: number) => {
         return {
           style: {

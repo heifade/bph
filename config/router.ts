@@ -4,7 +4,7 @@ export const pageRoutes = [
     component: '../layouts/index',
     routes: [
       {
-        path: '/department',
+        path: '/department/:id',
         component: './page.department',
         name: '部门管理',
       },

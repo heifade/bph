@@ -13,6 +13,7 @@ const model = mergeModel(createBaseModel(NAMESPACE_TABLE1), {
   effects: {
     *onFetchList(action: IAction, { call, put }) {
       yield call(delay, 500);
+      console.log(999, action.payload);
       return mockdata;
     },
     *onFetchDetail(action: IAction, { call, put }) {

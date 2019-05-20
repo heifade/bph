@@ -23,6 +23,7 @@ export function createBaseModel(namespace: string) {
       sorts: [],
       rows: [],
       rowCount: 0,
+      crossPageSelect: false,
     },
 
     effects: {
@@ -44,23 +45,18 @@ export function createBaseModel(namespace: string) {
           pageIndex: pageIndexInState,
           pageSize: pageSizeInState,
           sorts: sortsInState,
+          crossPageSelect: crossPageSelectInState,
+          match: matchInState,
+          pagination: paginationInState,
         } = yield select(state => state[namespace]);
         const {
-          pageIndex: pageIndexInPayload,
-          pageSize: pageSizeInPayload,
+          pageIndex = pageIndexInState,
+          pageSize = pageSizeInState,
           sorter,
-          crossPageSelect,
-          pagination,
+          crossPageSelect = crossPageSelectInState,
+          pagination = paginationInState,
+          match = matchInState,
         } = action.payload;
-
-        let pageSize = pageSizeInState;
-        if (pageSizeInPayload !== undefined && pageSizeInPayload !== null) {
-          pageSize = pageSizeInPayload;
-        }
-        let pageIndex = pageIndexInState;
-        if (pageIndexInPayload !== undefined && pageIndexInPayload !== null) {
-          pageIndex = pageIndexInPayload;
-        }
 
         let sorts = sortsInState || [];
         if (sorter) {
@@ -77,6 +73,7 @@ export function createBaseModel(namespace: string) {
         const fetchListPayload: IHash = {
           ...condition,
           ...conditionExtend,
+          match,
         };
         if (pagination !== false) {
           fetchListPayload[Config.pagination.pageIndexFieldName] =
@@ -103,6 +100,8 @@ export function createBaseModel(namespace: string) {
             pageSize,
             sorts,
             crossPageSelect,
+            match,
+            pagination,
           },
         });
       },
@@ -200,7 +199,7 @@ export function createBaseModel(namespace: string) {
 
       *onRefreshBase(action: IAction, { call, put, select }) {
         const { pageIndex, pageSize, sorts } = yield select(s => s[namespace]);
-        const { pagination, crossPageSelect } = action.payload;
+        const { pagination, crossPageSelect, match } = action.payload;
         yield put({
           type: 'onFetchListBase',
           payload: {
@@ -209,6 +208,7 @@ export function createBaseModel(namespace: string) {
             sorts,
             pagination,
             crossPageSelect,
+            match,
           },
         });
       },
@@ -223,7 +223,16 @@ export function createBaseModel(namespace: string) {
         state.condition = action.payload;
       },
       onFetchListDoneBase(state: ITableCardBaseState, action: IAction) {
-        const { rowCount, rows, pageIndex, pageSize, sorts, crossPageSelect } = action.payload;
+        const {
+          rowCount,
+          rows,
+          pageIndex,
+          pageSize,
+          sorts,
+          crossPageSelect,
+          match,
+          pagination,
+        } = action.payload;
 
         state.rows = rows;
         state.rowCount = rowCount;
@@ -234,6 +243,9 @@ export function createBaseModel(namespace: string) {
           state.selectedRows = [];
         }
         state.sorts = sorts;
+        state.match = match;
+        state.crossPageSelect = crossPageSelect;
+        state.pagination = pagination;
       },
 
       onSelectAllRowsBase(state: ITableCardBaseState, action: IAction) {

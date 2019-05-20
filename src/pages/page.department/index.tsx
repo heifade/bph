@@ -8,7 +8,7 @@ export default class Test extends React.PureComponent<IProps> {
   render() {
     return (
       <React.Fragment>
-        <Table1 />
+        <Table1 match={this.props.match} />
         {/* <Table2 /> */}
       </React.Fragment>
     );

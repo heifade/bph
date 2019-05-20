@@ -55,6 +55,21 @@ export interface ITableCardBaseState {
   conditionExtend: any;
   bodyClientWidth: number;
   bodyClientHeight: number;
+
+  /**
+   * 是否跨页选择
+   */
+  crossPageSelect: boolean;
+
+  /**
+   * url match
+   */
+  match: any;
+
+  /**
+   * 分页
+   */
+  pagination: any;
 }
 
 export interface IModel {

@@ -25,7 +25,9 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     const {
       dispatch,
       tableCardConfig: { namespace, crossPageSelect, pagination },
+      match,
     } = this.props;
+
     dispatch({
       type: `${namespace}/onSearchBase`,
       payload: {
@@ -34,6 +36,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         pageSize: Config.pagination.pageSize,
         pagination,
         crossPageSelect,
+        match,
       },
     });
   };
@@ -41,6 +44,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     const {
       dispatch,
       tableCardConfig: { namespace, crossPageSelect, pagination },
+      match,
     } = this.props;
     dispatch({
       type: `${namespace}/onSearchBase`,
@@ -50,6 +54,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         pageSize: Config.pagination.pageSize,
         pagination,
         crossPageSelect,
+        match,
       },
     });
   };
@@ -57,12 +62,14 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     const {
       dispatch,
       tableCardConfig: { namespace, crossPageSelect, pagination },
+      match,
     } = this.props;
     dispatch({
       type: `${namespace}/onRefreshBase`,
       payload: {
         crossPageSelect,
         pagination,
+        match,
       },
     });
   };
@@ -195,6 +202,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     const {
       dispatch,
       tableCardConfig: { namespace, crossPageSelect },
+      match,
     } = this.props;
     dispatch({
       type: `${namespace}/onFetchListBase`,
@@ -202,6 +210,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         pageIndex: current,
         pageSize,
         crossPageSelect,
+        match,
       },
     });
   };

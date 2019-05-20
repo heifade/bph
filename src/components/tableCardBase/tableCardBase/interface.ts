@@ -9,6 +9,7 @@ export interface ITableCardBaseProps {
   fetchListLoading: boolean;
   fetchDetailLoading: boolean;
   dispatch: IDispatch;
+  match: any;
   tableCardState: ITableCardBaseState;
   location: any;
   tableCardConfig: ITableCardBaseConfig;
