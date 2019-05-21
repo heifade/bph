@@ -33,6 +33,13 @@ export default {
   lessLoaderOptions: {
     javascriptEnabled: true,
   },
+  proxy: {
+    '/api': {
+      target: 'https://randomuser.me/api',
+      changeOrigin: true,
+      pathRewrite: { '^/api': '' },
+    },
+  },
   disableRedirectHoist: true,
   extraBabelPlugins: [['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }]],
   cssLoaderOptions: {

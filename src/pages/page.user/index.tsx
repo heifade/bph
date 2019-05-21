@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { NAMESPACE_TABLE1 } from './model';
+import { NAMESPACE } from './model';
 import {
   TableCardBase,
   ITableCardBaseConfig,
@@ -9,19 +9,20 @@ import {
   ITableCardBaseProps,
   tableCardBaseMapStateToProps,
   TextButton,
+  OptionContainer,
 } from '@/index';
+import { Editor } from './editor';
 import { Button } from 'antd';
 import { IHash } from '@/interface';
-import { router } from 'umi';
 
 interface IProps extends ITableCardBaseProps {}
 
 @connect((pars, h) => {
   return {
-    ...tableCardBaseMapStateToProps(pars, NAMESPACE_TABLE1),
+    ...tableCardBaseMapStateToProps(pars, NAMESPACE),
   };
 })
-export default class UserTable extends React.PureComponent<IProps> {
+export default class Table1 extends React.PureComponent<IProps> {
   private tableCardBaseRef = React.createRef<TableCardBase<any>>();
 
   renderCondition = () => {
@@ -29,96 +30,96 @@ export default class UserTable extends React.PureComponent<IProps> {
       tableCardState: { condition },
     } = this.props;
     const conditionItems: IConditionItem[] = [
-      ConditionItem({ title: '条件名称1', field: 'keyword', initialValue: condition.keyword }),
-      ConditionItem({ title: '条件名称2', field: 'keyword2', initialValue: condition.keyword2 }),
-      ConditionItem({ title: '条件名称3', field: 'keyword3', initialValue: condition.keyword3 }),
-      ConditionItem({ title: '条件名称4', field: 'keyword4', initialValue: condition.keyword4 }),
+      ConditionItem({ title: '姓名', field: 'name', initialValue: '' }),
       undefined,
     ];
     return conditionItems;
   };
   renderActionBar() {
-    return [<Button key="check">审核</Button>];
+    return [
+      <Button key="check" onClick={() => console.log('审核')}>
+        审核
+      </Button>,
+    ];
   }
 
   renderEditor() {
-    return null;
+    return <Editor />;
   }
 
-  onEdit = (record: any) => {
-    router.push('/user/editor');
+  onOpenNextTable = (record: IHash) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: `${NAMESPACE}/onShowTable`,
+      payload: record,
+    });
   };
 
   render() {
     const tableCardConfig: ITableCardBaseConfig = {
-      namespace: NAMESPACE_TABLE1,
-      rowKey: 'diagramConfigurationId',
-      addButtonState: { visible: true, disabled: false, label: 'add' },
+      namespace: NAMESPACE,
+      rowKey: 'id',
+      addButtonState: { visible: true, disabled: false },
       downloadButtonState: { visible: true, disabled: false },
       deleteButtonState: { visible: true, disabled: false },
-      scroll: { y: 200 },
+      // scroll: { x:  },
       crossPageSelect: true,
-      // pagination: {
-      //   position: 'flex-start',
-      // },
-      pagination: false,
+      pagination: {
+        position: 'flex-start',
+      },
       filledParentNode: true,
       autoSearch: true,
-      onRow: (record: IHash, index: number) => {
-        return {
-          style: {
-            color: record.achievement < 60 ? '#ff0000' : 'unset',
-          },
-        };
-      },
+      checkBox: true,
+      // onRow: (record: IHash, index: number) => {
+      //   return {
+      //     style: {
+      //       color: record.achievement < 60 ? '#ff0000' : 'unset',
+      //     },
+      //   };
+      // },
       columns: [
         {
           title: '编号',
           dataIndex: 'id',
-          width: 300,
+          width: 340,
           // fixed: 'left',
           sorter: true,
         },
         {
-          title: '名称',
+          title: '姓名',
           dataIndex: 'name',
-          width: 300,
+          width: 200,
           // fixed: 'left',
           sorter: true,
         },
         {
-          title: '成绩',
-          dataIndex: 'achievement',
-          width: 300,
+          title: '邮箱',
+          dataIndex: 'email',
           // fixed: 'left',
           sorter: true,
-        },
-        {
-          title: '描述',
-          dataIndex: 'desc',
-          sorter: true,
-          render: (text, record, index) => {
-            return <div>{text}</div>;
-          },
         },
         {
           title: '创建时间',
           dataIndex: 'createDate',
-          width: 185,
           sorter: true,
-          // defaultSortOrder: 'descend',
         },
         {
           title: '操作',
-          width: 350,
+          width: 120,
           render: (text, record, index) => {
             if (!this.tableCardBaseRef.current) {
               return null;
             }
+            const { onEdit, onDelete, onCopy } = this.tableCardBaseRef.current;
             return (
-              <TextButton data={record} onClick={this.onEdit}>
-                编辑
-              </TextButton>
+              <OptionContainer splitLine={false}>
+                <TextButton data={record} onClick={onEdit}>
+                  编辑
+                </TextButton>
+                <TextButton data={record} onClick={onDelete}>
+                  删除
+                </TextButton>
+              </OptionContainer>
             );
           },
         },

@@ -22,8 +22,10 @@ const BasicLayout: React.FC = props => {
           <SideMenu onClick={onMenuClick} {...props} />
         </Layout.Sider>
         <Layout.Content>
-          <Breadcrumbs />
-          {props.children}
+          <div className={styles.content}>
+            <Breadcrumbs />
+            {props.children}
+          </div>
         </Layout.Content>
       </Layout>
     </Layout>
