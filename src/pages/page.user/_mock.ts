@@ -23,10 +23,10 @@ export default {
       },
     } = req;
 
-    const { department } = params;
+    const { department } = params || {};
 
     let list: any[] = [];
-    if (department !== '') {
+    if (department !== undefined) {
       list = generateUser(10).filter(h => h.department === department);
     } else {
       list = generateUser(10);

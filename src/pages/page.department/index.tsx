@@ -49,7 +49,7 @@ export default class Table1 extends React.PureComponent<IProps> {
   }
 
   onOpenUser = (record: IHash) => {
-    router.push(`user/${record.id}`);
+    router.push(`/department/user/${record.id}`);
   };
 
   render() {
