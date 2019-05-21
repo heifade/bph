@@ -20,6 +20,9 @@ export interface ITableCardBaseProps {
 
 export interface ITableCardBaseConfig {
   namespace: string;
+  /**
+   * 列信息，参考antd Tabel中的 columns
+   */
   columns: Array<ColumnProps<any>>;
   /**
    * 是否在组件加载完成后自动调用search方法，默认: true
