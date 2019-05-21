@@ -6,6 +6,7 @@ function generateUser(num: number) {
       id: i,
       name: `姓名${i}`,
       email: `email${i}@126.com`,
+      department: `${i}`,
       createDate: moment()
         .add('day', i)
         .format('YYYY-MM-DD HH:mm:ss'),
@@ -16,10 +17,25 @@ function generateUser(num: number) {
 export default {
   // 获取过程详情
   'GET /api/fetchUsr': (req, res) => {
+    const {
+      query: {
+        match: { params },
+      },
+    } = req;
+
+    const { department } = params;
+
+    let list: any[] = [];
+    if (department !== '') {
+      list = generateUser(10).filter(h => h.department === department);
+    } else {
+      list = generateUser(10);
+    }
+
     res.send({
       success: true,
-      rows: generateUser(10),
-      rowCount: 10,
+      rows: list,
+      rowCount: list.length,
     });
   },
 };

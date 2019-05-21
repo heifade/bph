@@ -76,7 +76,10 @@ export class SideMenu extends React.PureComponent<IProps> {
             </span>
           }
         >
-          <Menu.Item key="011" data-url="/user">
+          <Menu.Item key="011" data-url="/department">
+            部门管理
+          </Menu.Item>
+          <Menu.Item key="012" data-url="/user">
             用户管理
           </Menu.Item>
         </SubMenu>

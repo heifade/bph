@@ -1,9 +1,9 @@
 import { mergeModel, createBaseModel } from '@/index';
 import { IAction } from '@/interface/iAction';
 import { delay } from 'q';
-import { fetchList } from './service';
+import { fetchDepartment } from './service';
 
-export const NAMESPACE = 'user';
+export const NAMESPACE = 'department';
 
 const model = mergeModel(createBaseModel(NAMESPACE), {
   namespace: NAMESPACE,
@@ -12,8 +12,8 @@ const model = mergeModel(createBaseModel(NAMESPACE), {
   },
   effects: {
     *onFetchList(action: IAction, { call, put }) {
-      console.log('onFetchList', action.payload);
-      const res = yield call(fetchList, action.payload);
+      console.log('fetchDepartment', action.payload);
+      const res = yield call(fetchDepartment, action.payload);
       return res;
     },
     *onFetchDetail(action: IAction, { call, put }) {

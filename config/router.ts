@@ -27,10 +27,16 @@ export const pageRoutes = [
       // },
 
       {
-        path: '/user',
+        path: '/department',
+        component: './page.department',
+        name: '部门管理',
+      },
+
+      {
+        path: '/user/:department?',
         component: './page.user',
-        name: '用户管理'
-      }
+        name: '用户管理',
+      },
     ],
   },
 ];

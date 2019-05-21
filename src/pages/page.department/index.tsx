@@ -13,6 +13,8 @@ import {
 } from '@/index';
 import { Editor } from './editor';
 import { Button } from 'antd';
+import { IHash } from '@/interface';
+import { router } from 'umi';
 
 interface IProps extends ITableCardBaseProps {}
 
@@ -29,7 +31,7 @@ export default class Table1 extends React.PureComponent<IProps> {
       tableCardState: { condition },
     } = this.props;
     const conditionItems: IConditionItem[] = [
-      ConditionItem({ title: '姓名', field: 'name', initialValue: '' }),
+      ConditionItem({ title: '部门名称', field: 'name', initialValue: '' }),
       undefined,
     ];
     return conditionItems;
@@ -45,6 +47,10 @@ export default class Table1 extends React.PureComponent<IProps> {
   renderEditor() {
     return <Editor />;
   }
+
+  onOpenUser = (record: IHash) => {
+    router.push(`user/${record.id}`);
+  };
 
   render() {
     const tableCardConfig: ITableCardBaseConfig = {
@@ -77,24 +83,10 @@ export default class Table1 extends React.PureComponent<IProps> {
           sorter: true,
         },
         {
-          title: '姓名',
+          title: '名称',
           dataIndex: 'name',
           width: 200,
           // fixed: 'left',
-          sorter: true,
-        },
-        {
-          title: '邮箱',
-          dataIndex: 'email',
-          // fixed: 'left',
-          width: 200,
-          sorter: true,
-        },
-        {
-          title: '所属部门',
-          dataIndex: 'department',
-          // fixed: 'left',
-          width: 200,
           sorter: true,
         },
         {
@@ -104,7 +96,7 @@ export default class Table1 extends React.PureComponent<IProps> {
         },
         {
           title: '操作',
-          width: 120,
+          width: 180,
           render: (text, record, index) => {
             if (!this.tableCardBaseRef.current) {
               return null;
@@ -114,6 +106,9 @@ export default class Table1 extends React.PureComponent<IProps> {
               <OptionContainer splitLine={false}>
                 <TextButton data={record} onClick={onEdit}>
                   编辑
+                </TextButton>
+                <TextButton data={record} onClick={this.onOpenUser}>
+                  员工
                 </TextButton>
                 <TextButton data={record} onClick={onDelete}>
                   删除

@@ -16,7 +16,7 @@ export class Editor extends React.PureComponent<IProps> {
     const { tableCardState, form } = this.props;
     const hash = tableCardState.editorData || {};
     const editorConfig = {
-      title: '用户',
+      title: '部门',
       namespace: NAMESPACE,
     };
     return (
@@ -30,7 +30,7 @@ export class Editor extends React.PureComponent<IProps> {
             required={true}
             // disabled={tableCardState.editorDoType === 'add' ? false : true}
           />
-          <FormItemInput label="姓名" fieldName="name" record={hash} form={form} required={true} />
+          <FormItemInput label="名称" fieldName="name" record={hash} form={form} required={true} />
         </Form>
       </EditorBase>
     );
