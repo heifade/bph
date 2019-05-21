@@ -31,6 +31,7 @@ export default class Table1 extends React.PureComponent<IProps> {
       tableCardState: { condition },
     } = this.props;
     const conditionItems: IConditionItem[] = [
+      ConditionItem({ title: '编号', field: 'id', initialValue: '' }),
       ConditionItem({ title: '部门名称', field: 'name', initialValue: '' }),
       undefined,
     ];
