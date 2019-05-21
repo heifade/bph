@@ -1,6 +1,6 @@
 # bph
 
-本工具基于react, dva。
+本工具基于react, dva, antd
 为方便开发列表的增删改查功能。
 
 

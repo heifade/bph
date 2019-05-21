@@ -26,6 +26,7 @@ interface IProps extends ITableCardBaseProps {}
 export default class Table1 extends React.PureComponent<IProps> {
   private tableCardBaseRef = React.createRef<TableCardBase<any>>();
 
+  // 渲染条件
   renderCondition = () => {
     const {
       tableCardState: { condition },
@@ -37,6 +38,7 @@ export default class Table1 extends React.PureComponent<IProps> {
     ];
     return conditionItems;
   };
+  // 渲染操作按钮
   renderActionBar() {
     return [
       <Button key="check" onClick={() => console.log('审核')}>
@@ -44,37 +46,37 @@ export default class Table1 extends React.PureComponent<IProps> {
       </Button>,
     ];
   }
-
+  // 渲染编辑弹框
   renderEditor() {
     return <Editor />;
   }
-
+  // 打开用户管理页面
   onOpenUser = (record: IHash) => {
     router.push(`/department/user/${record.id}`);
   };
 
   render() {
     const tableCardConfig: ITableCardBaseConfig = {
-      namespace: NAMESPACE,
-      rowKey: 'id',
-      addButtonState: { visible: true, disabled: false },
-      downloadButtonState: { visible: true, disabled: false },
-      deleteButtonState: { visible: true, disabled: false },
-      // scroll: { x:  },
-      crossPageSelect: true,
+      namespace: NAMESPACE, // 对应 model 的 NAMESPACE
+      rowKey: 'id', // 数据主键，必须唯一。
+      addButtonState: { visible: true, disabled: false }, // 操作按钮栏上，新增按钮是否可见/可用
+      downloadButtonState: { visible: true, disabled: false }, // 条件栏上，下载按钮是否可见/可用
+      deleteButtonState: { visible: true, disabled: false }, // 操作按钮栏上，删除按钮是否可见/可用
+      // scroll: { x:  }, // 设置横向或纵向滚动，也可用于指定滚动区域的宽和高，可以设置为像素值，百分比，true 和 'max-content'
+      crossPageSelect: true, // 是否跨页选择
       pagination: {
         position: 'flex-start',
       },
-      filledParentNode: true,
-      autoSearch: true,
-      checkBox: true,
-      // onRow: (record: IHash, index: number) => {
-      //   return {
-      //     style: {
-      //       color: record.achievement < 60 ? '#ff0000' : 'unset',
-      //     },
-      //   };
-      // },
+      filledParentNode: true, // 是否将表格充满整个容器
+      autoSearch: true, // 页面加载完时，是否自动调用查询
+      checkBox: true, // 数据行前是否显示复选框
+      onRow: (record: IHash, index: number) => {
+        return {
+          style: {
+            backgroundColor: index % 2 ? '#ffffff' : '#e1e1e1',
+          },
+        };
+      },
       columns: [
         {
           title: '编号',

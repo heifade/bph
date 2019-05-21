@@ -10,6 +10,7 @@ import {
   tableCardBaseMapStateToProps,
   TextButton,
   OptionContainer,
+  IHash,
 } from '@/index';
 import { Editor } from './editor';
 import { Button } from 'antd';
@@ -61,13 +62,13 @@ export default class Table1 extends React.PureComponent<IProps> {
       filledParentNode: true,
       autoSearch: true,
       checkBox: true,
-      // onRow: (record: IHash, index: number) => {
-      //   return {
-      //     style: {
-      //       color: record.achievement < 60 ? '#ff0000' : 'unset',
-      //     },
-      //   };
-      // },
+      onRow: (record: IHash, index: number) => {
+        return {
+          style: {
+            backgroundColor: index % 2 ? '#ffffff' : '#e1e1e1',
+          },
+        };
+      },
       columns: [
         {
           title: '编号',
