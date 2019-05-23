@@ -63,16 +63,11 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   onRefresh = () => {
     const {
       dispatch,
-      tableCardConfig: { namespace, crossPageSelect, pagination },
-      match,
+      tableCardConfig: { namespace },
     } = this.props;
     dispatch({
       type: `${namespace}/onRefreshBase`,
-      payload: {
-        crossPageSelect,
-        pagination,
-        match,
-      },
+      payload: {},
     });
   };
 
@@ -170,7 +165,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       tableCardConfig: { autoSearch },
     } = this.props;
     if (!renderCondition && autoSearch !== false) {
-      this.onRefresh();
+      this.onSearch({});
     }
   }
 

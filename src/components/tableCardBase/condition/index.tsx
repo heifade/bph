@@ -87,7 +87,7 @@ class Component extends React.PureComponent<IProps> {
   componentDidMount() {
     const { autoSearch } = this.props;
     if (autoSearch !== false) {
-      this.onRefresh();
+      this.onSearch();
     }
   }
   render() {
