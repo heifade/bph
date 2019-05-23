@@ -56,6 +56,7 @@ export function createBaseModel(namespace: string) {
           crossPageSelect = crossPageSelectInState,
           pagination = paginationInState,
           match = matchInState,
+          clear = false,
         } = action.payload;
 
         let sorts = sortsInState || [];
@@ -104,6 +105,13 @@ export function createBaseModel(namespace: string) {
             pagination,
           },
         });
+
+        if (clear || !crossPageSelect) {
+          yield put({
+            type: 'onUnSelectedRows',
+            payload: {},
+          });
+        }
       },
 
       *onOpenDetailBase(action: IAction, { call, put, take, select }) {
@@ -243,10 +251,6 @@ export function createBaseModel(namespace: string) {
         state.rowCount = rowCount;
         state.pageIndex = pageIndex;
         state.pageSize = pageSize;
-        if (!crossPageSelect) {
-          // 不跨页选择时，清空已选数据
-          state.selectedRows = [];
-        }
         state.sorts = sorts;
         state.match = match;
         state.crossPageSelect = crossPageSelect;

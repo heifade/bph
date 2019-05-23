@@ -37,6 +37,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         pagination,
         crossPageSelect,
         match,
+        clear: true,
       },
     });
   };
@@ -55,6 +56,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         pagination,
         crossPageSelect,
         match,
+        clear: true,
       },
     });
   };
