@@ -249,6 +249,19 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     });
   };
 
+  onUnSelectedRows = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const {
+      dispatch,
+      tableCardConfig: { namespace },
+    } = this.props;
+    dispatch({
+      type: `${namespace}/onUnSelectedRows`,
+      payload: {},
+    });
+  };
+
   onResize = debounce(() => {
     this.onCondigionCollapsed();
   }, 300);
@@ -311,7 +324,12 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         )}
         {renderActionBar && renderActionBar()}
         {selectedRows.length > 0 && (
-          <div className={'bph_selected_info'}>共选中{selectedRows.length}条</div>
+          <div className={'bph_selected_info'}>
+            共选中{selectedRows.length}条{' '}
+            <a href="javascript:void" onClick={this.onUnSelectedRows}>
+              取消选中
+            </a>
+          </div>
         )}
       </ActionBar>
     );
