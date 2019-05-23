@@ -211,9 +211,21 @@ export function createBaseModel(namespace: string) {
       },
 
       *onRefreshBase(action: IAction, { call, put, select }) {
-        const { pageIndex, pageSize, sorts, pagination, crossPageSelect, match } = yield select(
-          s => s[namespace],
-        );
+        const {
+          pageIndex,
+          pageSize,
+          sorts,
+          pagination: paginationInState,
+          crossPageSelect: crossPageSelectInState,
+          match: matchInState,
+        } = yield select(s => s[namespace]);
+
+        const {
+          pagination = paginationInState,
+          crossPageSelect = crossPageSelectInState,
+          match = matchInState,
+        } = action.payload;
+
         yield put({
           type: 'onFetchListBase',
           payload: {
