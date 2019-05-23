@@ -301,7 +301,11 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
           </Button>
         )}
         {deleteButtonState && deleteButtonState.visible && (
-          <Button icon="delete" disabled={deleteButtonState.disabled} onClick={this.onDeletes}>
+          <Button
+            icon="delete"
+            disabled={deleteButtonState.disabled || selectedRows.length < 1}
+            onClick={this.onDeletes}
+          >
             {deleteButtonState.label || '删除'}
           </Button>
         )}
