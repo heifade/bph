@@ -162,6 +162,11 @@ export function createBaseModel(namespace: string) {
               data: action.payload,
             },
           });
+
+          yield put({
+            type: 'onUnSelectedRows',
+            payload: {},
+          });
         }
       },
       *onDownloadBase(action: IAction, { call, put, select }) {
@@ -246,6 +251,10 @@ export function createBaseModel(namespace: string) {
         state.match = match;
         state.crossPageSelect = crossPageSelect;
         state.pagination = pagination;
+      },
+
+      onUnSelectedRows(state: ITableCardBaseState, action: IAction) {
+        state.selectedRows = [];
       },
 
       onSelectAllRowsBase(state: ITableCardBaseState, action: IAction) {
