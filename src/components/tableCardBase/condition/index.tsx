@@ -27,7 +27,11 @@ class Component extends React.PureComponent<IProps> {
   state = {
     isCollapsed: true,
   };
-  onSearch = () => {
+  onSearch = (e: any) => {
+    if (e) {
+      e.preventDefault();
+    }
+
     const { onSearch, form } = this.props;
     if (onSearch) {
       form.validateFields((err, fieldsValue) => {

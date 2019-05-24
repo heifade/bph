@@ -26,7 +26,7 @@ export class TextButton extends React.PureComponent<IProps> {
       <Tooltip title={title}>
         <a
           onClick={this.onClick}
-          style={{ fontSize: 16, ...style }}
+          style={{ fontSize: 14, ...style }}
           className={disabled ? 'bph_disabled_color' : ''}
         >
           {children}
