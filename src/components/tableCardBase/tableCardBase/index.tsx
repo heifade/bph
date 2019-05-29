@@ -311,7 +311,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
     return (
       <ActionBar>
         {addButtonState && addButtonState.visible && (
-          <Button icon="plus" onClick={this.onAdd}>
+          <Button icon="plus" onClick={this.onAdd} size={Config.button.size}>
             {addButtonState.label || '新增'}
           </Button>
         )}
@@ -320,6 +320,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
             icon="delete"
             disabled={deleteButtonState.disabled || selectedRows.length < 1}
             onClick={this.onDeletes}
+            size={Config.button.size}
           >
             {deleteButtonState.label || '删除'}
           </Button>

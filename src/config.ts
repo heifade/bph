@@ -26,4 +26,11 @@ export class Config {
      */
     pageSize: 10,
   };
+
+  /**
+   * 按钮
+   */
+  static button = {
+    size: 'small',
+  };
 }
