@@ -426,7 +426,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
           {pagination !== false && rowCount > 0 && (
             <div
               className={'bph_tablecardbase_frame_pagination'}
-              style={{ justifyContent: pagination ? pagination.position : 'flex-end' }}
+              style={{ justifyContent: pagination ? pagination.position : 'flex-start' }}
             >
               {paginationComponent}
             </div>
@@ -444,7 +444,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
           {pagination !== false && rowCount > 0 && (
             <div
               className="bph_tablecardbase_frame_pagination"
-              style={{ justifyContent: pagination ? pagination.position : 'flex-end' }}
+              style={{ justifyContent: pagination ? pagination.position : 'flex-start' }}
             >
               {paginationComponent}
             </div>
