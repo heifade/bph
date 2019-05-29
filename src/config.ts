@@ -30,7 +30,9 @@ export class Config {
   /**
    * 按钮
    */
-  static button = {
-    size: 'small',
+  static button: {
+    size: 'small' | 'large' | 'default';
+  } = {
+    size: 'default',
   };
 }
