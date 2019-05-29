@@ -90,7 +90,10 @@ export function createBaseModel(namespace: string) {
         const res = yield yield put({
           type: 'onFetchList',
           payload: fetchListPayload,
-        });
+        }) || {
+          rows: [],
+          rowCount: 0,
+        };
 
         yield put({
           type: 'onFetchListDoneBase',
