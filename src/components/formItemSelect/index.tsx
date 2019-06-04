@@ -32,6 +32,11 @@ export interface IFormItemSelectProps extends IFormItemInputProps {
    * 是否允许多选
    */
   multiple?: boolean;
+
+  /**
+   * 透传给 Select 的属性
+   */
+  componentProps?: any;
 }
 
 export class FormItemSelect extends React.PureComponent<IFormItemSelectProps> {
@@ -49,6 +54,7 @@ export class FormItemSelect extends React.PureComponent<IFormItemSelectProps> {
       record,
       fieldName,
       disabled,
+      componentProps,
     } = this.props;
 
     let initValue;
@@ -68,6 +74,7 @@ export class FormItemSelect extends React.PureComponent<IFormItemSelectProps> {
             allowClear={allowClear}
             mode={multiple ? 'multiple' : undefined}
             disabled={disabled}
+            {...componentProps}
           >
             {haveAllOption && (
               <Select.Option key="all" value="">

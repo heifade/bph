@@ -14,7 +14,6 @@ export interface IFormItemInputProps {
   component?: any;
   disabled?: boolean;
   visible?: boolean;
-  inputProps?: any;
   colon?: boolean;
   maxLength?: number;
   layout?: {
@@ -22,6 +21,10 @@ export interface IFormItemInputProps {
     wrapperCol?: ColProps;
   };
   rules?: any[];
+  /**
+   * 透传给 Input 的属性
+   */
+  componentProps?: any;
 }
 
 export class FormItemInput extends React.PureComponent<IFormItemInputProps> {
@@ -36,7 +39,6 @@ export class FormItemInput extends React.PureComponent<IFormItemInputProps> {
       component,
       disabled,
       visible = true,
-      inputProps,
       colon = true,
       layout = {
         labelCol: { xs: { span: 24 }, sm: { span: 8 }, lg: { span: 6 } },
@@ -44,6 +46,7 @@ export class FormItemInput extends React.PureComponent<IFormItemInputProps> {
       },
       rules = [],
       maxLength,
+      componentProps
     } = this.props;
 
     let initValue;
@@ -74,7 +77,7 @@ export class FormItemInput extends React.PureComponent<IFormItemInputProps> {
             <Input
               placeholder={`请输入${label || ''}`}
               disabled={disabled}
-              {...inputProps}
+              {...componentProps}
               maxLength={maxLength}
             />
           ),
