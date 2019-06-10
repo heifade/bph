@@ -23,7 +23,7 @@ export function createBaseModel(namespace: string) {
       sorts: [],
       rows: [],
       rowCount: 0,
-      crossPageSelect: false,
+      selectType: 'checkbox',
     },
 
     effects: {
@@ -45,7 +45,7 @@ export function createBaseModel(namespace: string) {
           pageIndex: pageIndexInState,
           pageSize: pageSizeInState,
           sorts: sortsInState,
-          crossPageSelect: crossPageSelectInState,
+          selectType: selectTypeInState,
           match: matchInState,
           pagination: paginationInState,
         } = yield select(state => state[namespace]);
@@ -53,7 +53,7 @@ export function createBaseModel(namespace: string) {
           pageIndex = pageIndexInState,
           pageSize = pageSizeInState,
           sorter,
-          crossPageSelect = crossPageSelectInState,
+          selectType = selectTypeInState,
           pagination = paginationInState,
           match = matchInState,
           clear = false,
@@ -103,13 +103,13 @@ export function createBaseModel(namespace: string) {
             pageIndex,
             pageSize,
             sorts,
-            crossPageSelect,
+            selectType,
             match,
             pagination,
           },
         });
 
-        if (clear || !crossPageSelect) {
+        if (clear || selectType !== 'crossPageSelect') {
           yield put({
             type: 'onUnSelectedRows',
             payload: {},
@@ -219,13 +219,13 @@ export function createBaseModel(namespace: string) {
           pageSize,
           sorts,
           pagination: paginationInState,
-          crossPageSelect: crossPageSelectInState,
+          selectType: selectTypeInState,
           match: matchInState,
         } = yield select(s => s[namespace]);
 
         const {
           pagination = paginationInState,
-          crossPageSelect = crossPageSelectInState,
+          selectType = selectTypeInState,
           match = matchInState,
         } = action.payload;
 
@@ -236,7 +236,7 @@ export function createBaseModel(namespace: string) {
             pageSize,
             sorts,
             pagination,
-            crossPageSelect,
+            selectType,
             match,
           },
         });
@@ -258,7 +258,7 @@ export function createBaseModel(namespace: string) {
           pageIndex,
           pageSize,
           sorts,
-          crossPageSelect,
+          selectType,
           match,
           pagination,
         } = action.payload;
@@ -269,7 +269,7 @@ export function createBaseModel(namespace: string) {
         state.pageSize = pageSize;
         state.sorts = sorts;
         state.match = match;
-        state.crossPageSelect = crossPageSelect;
+        state.selectType = selectType;
         state.pagination = pagination;
       },
 
@@ -278,8 +278,8 @@ export function createBaseModel(namespace: string) {
       },
 
       onSelectAllRowsBase(state: ITableCardBaseState, action: IAction) {
-        const { rowKey, selected, selectedRows, crossPageSelect, changeRows } = action.payload;
-        if (!crossPageSelect) {
+        const { rowKey, selected, selectedRows, selectType, changeRows } = action.payload;
+        if (!selectType) {
           // 如果不是跨页
           state.selectedRows = selectedRows;
         } else {
@@ -298,11 +298,8 @@ export function createBaseModel(namespace: string) {
       },
 
       onSelectRowBase(state: ITableCardBaseState, action: IAction) {
-        const { record, rowKey, selected, selectedRows, crossPageSelect } = action.payload;
-        if (!crossPageSelect) {
-          // 如果不是跨页
-          state.selectedRows = selectedRows;
-        } else {
+        const { record, rowKey, selected, selectedRows, selectType } = action.payload;
+        if (selectType === 'crossPageSelect') {
           // 如果是跨页选择
           if (selected) {
             state.selectedRows.push(record);
@@ -312,6 +309,9 @@ export function createBaseModel(namespace: string) {
               state.selectedRows.splice(index, 1);
             }
           }
+        } else {
+          // 如果不是跨页
+          state.selectedRows = selectedRows;
         }
       },
 

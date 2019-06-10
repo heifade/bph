@@ -57,9 +57,9 @@ export interface ITableCardBaseState {
   bodyClientHeight: number;
 
   /**
-   * 是否跨页选择
+   * 单选/多选/跨页选
    */
-  crossPageSelect: boolean;
+  selectType?: 'radio' | 'checkbox' | 'crossPageSelect';
 
   /**
    * url match

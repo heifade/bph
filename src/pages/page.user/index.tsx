@@ -55,7 +55,7 @@ export default class Table1 extends React.PureComponent<IProps> {
       downloadButtonState: { visible: true, disabled: false },
       deleteButtonState: { visible: true, disabled: false },
       // scroll: { x:  },
-      crossPageSelect: true,
+      selectType: 'checkbox',
       pagination: {
         position: 'flex-start',
       },

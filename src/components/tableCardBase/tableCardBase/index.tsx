@@ -24,7 +24,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   onSearch = (condition?: IHash) => {
     const {
       dispatch,
-      tableCardConfig: { namespace, crossPageSelect, pagination },
+      tableCardConfig: { namespace, selectType, pagination },
       match,
     } = this.props;
 
@@ -35,7 +35,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         pageIndex: 1,
         pageSize: Config.pagination.pageSize,
         pagination,
-        crossPageSelect,
+        selectType,
         match,
         clear: true,
       },
@@ -44,7 +44,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   onReset = () => {
     const {
       dispatch,
-      tableCardConfig: { namespace, crossPageSelect, pagination },
+      tableCardConfig: { namespace, selectType, pagination },
       match,
     } = this.props;
     dispatch({
@@ -54,7 +54,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         pageIndex: 1,
         pageSize: Config.pagination.pageSize,
         pagination,
-        crossPageSelect,
+        selectType,
         match,
         clear: true,
       },
@@ -63,13 +63,13 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   onRefresh = () => {
     const {
       dispatch,
-      tableCardConfig: { namespace, crossPageSelect, pagination },
+      tableCardConfig: { namespace, selectType, pagination },
       match,
     } = this.props;
     dispatch({
       type: `${namespace}/onRefreshBase`,
       payload: {
-        crossPageSelect,
+        selectType,
         pagination,
         match,
       },
@@ -186,7 +186,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   ) => {
     const {
       dispatch,
-      tableCardConfig: { namespace, crossPageSelect, pagination },
+      tableCardConfig: { namespace, selectType, pagination },
     } = this.props;
 
     dispatch({
@@ -195,7 +195,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         sorter,
         pageIndex: pars.current,
         pageSize: pars.pageSize,
-        crossPageSelect,
+        selectType,
         pagination,
       },
     });
@@ -203,7 +203,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   onPaginationChange = (current: number, pageSize?: number | undefined) => {
     const {
       dispatch,
-      tableCardConfig: { namespace, crossPageSelect },
+      tableCardConfig: { namespace, selectType },
       match,
     } = this.props;
     dispatch({
@@ -211,7 +211,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
       payload: {
         pageIndex: current,
         pageSize,
-        crossPageSelect,
+        selectType,
         match,
       },
     });
@@ -220,7 +220,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   onSelectAllRows = (selected: boolean, selectedRows: IHashList, changeRows: any) => {
     const {
       dispatch,
-      tableCardConfig: { namespace, crossPageSelect, rowKey },
+      tableCardConfig: { namespace, selectType, rowKey },
     } = this.props;
     dispatch({
       type: `${namespace}/onSelectAllRowsBase`,
@@ -228,7 +228,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         selected,
         rowKey,
         selectedRows,
-        crossPageSelect,
+        selectType,
         changeRows,
       },
     });
@@ -237,8 +237,9 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
   onSelectRow = (record: any, selected: boolean, selectedRows: IHashList, nativeEvent: any) => {
     const {
       dispatch,
-      tableCardConfig: { namespace, crossPageSelect, rowKey },
+      tableCardConfig: { namespace, selectType, rowKey },
     } = this.props;
+
     dispatch({
       type: `${namespace}/onSelectRowBase`,
       payload: {
@@ -246,7 +247,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
         selected,
         rowKey,
         selectedRows,
-        crossPageSelect,
+        selectType,
       },
     });
   };
@@ -340,7 +341,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
 
   render() {
     const {
-      tableCardState: { rows, rowCount, pageIndex, pageSize, selectedRows, editorVisible, sorts },
+      tableCardState: { rows, rowCount, pageIndex, pageSize, selectedRows, editorVisible, sorts, selectType },
       fetchListLoading,
       fetchDetailLoading,
       tableCardConfig: { columns, rowKey, scroll, pagination, filledParentNode, onRow, checkBox },
@@ -349,6 +350,7 @@ export class TableCardBase<T extends ITableCardBaseProps> extends PureComponent<
 
     const rowSelection = checkBox
       ? {
+          type: selectType === 'radio'? 'radio' : 'checkbox',
           selectedRowKeys: selectedRows.map(h => h[rowKey]),
           onSelect: this.onSelectRow,
           onSelectAll: this.onSelectAllRows,

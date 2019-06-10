@@ -49,9 +49,10 @@ export interface ITableCardBaseConfig {
    */
   checkBox?: boolean;
   /**
-   * 是否跨页选择
+   * 单选/多选/跨页选
    */
-  crossPageSelect?: boolean;
+  selectType: 'radio' | 'checkbox' | 'crossPageSelect';
+
   /**
    * 表格滚动
    */

@@ -46,7 +46,7 @@ render() {
     downloadButtonState: { visible: true, disabled: false }, // 条件栏上，下载按钮是否可见/可用
     deleteButtonState: { visible: true, disabled: false }, // 操作按钮栏上，删除按钮是否可见/可用
     scroll: { y: 500 }, // 设置横向或纵向滚动，也可用于指定滚动区域的宽和高，可以设置为像素值，百分比，true 和 'max-content'
-    crossPageSelect: true, // 是否跨页选择
+    selectType: 'crossPageSelect', // 'radio' | 'checkbox' | 'crossPageSelect'
     pagination: {
       position: 'flex-start', // 分页条位置
     },
