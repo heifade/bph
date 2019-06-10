@@ -51,7 +51,7 @@ export interface ITableCardBaseConfig {
   /**
    * 单选/多选/跨页选
    */
-  selectType: 'radio' | 'checkbox' | 'crossPageSelect';
+  selectType?: 'radio' | 'checkbox' | 'crossPageSelect';
 
   /**
    * 表格滚动
