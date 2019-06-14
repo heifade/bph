@@ -21,6 +21,7 @@ const model = mergeModel(createBaseModel(NAMESPACE), {
       return action.payload;
     },
     *onSave(action: IAction, { call, put }) {
+      console.log(111, action.payload);
       yield console.log('onSave', action.payload);
     },
     *onDelete(action: IAction, { call, put }) {

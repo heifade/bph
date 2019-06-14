@@ -181,15 +181,17 @@ export function createBaseModel(namespace: string) {
         }
       },
       *onDownloadBase(action: IAction, { call, put, select }) {
+        const { match } = yield select(state => state[namespace]);
         yield put({
           type: 'onDownload',
-          payload: action.payload,
+          payload: { ...action.payload, match },
         });
       },
       *onSaveBase(action: IAction, { call, put, select }) {
+        const { match } = yield select(state => state[namespace]);
         const res = yield yield put({
           type: 'onSave',
-          payload: action.payload,
+          payload: { ...action.payload, match },
         });
 
         yield put({
