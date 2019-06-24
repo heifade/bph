@@ -9,27 +9,25 @@ export function createBaseModel(namespace: string) {
   return {
     namespace,
     state: {
-      editorVisible: false,
-      editorData: null,
-      pageDataList: [],
-      pageIndex: Config.pagination.startPageIndex,
-      pageSize: Config.pagination.pageSize,
-      totalCount: 0,
-      selectedRows: [],
-      condition: {},
-      conditionExtend: {},
+      editorVisible: false, // 编辑框是否显示
+      editorData: null, // 编辑框数据
+      pageIndex: Config.pagination.startPageIndex, // 当前页号
+      pageSize: Config.pagination.pageSize, // 页大小
+      selectedRows: [], // 选中的行数据数组
+      condition: {}, // 条件
+      conditionExtend: {}, // 条件扩展
       bodyClientWidth: 0,
       bodyClientHeight: 0,
-      sorts: [],
-      rows: [],
-      rowCount: 0,
+      sorts: [], // 排序
+      rows: [], // 当页数据
+      rowCount: 0, // 总数据行数
       selectType: 'checkbox',
     },
 
     effects: {
       *onSearchBase(action: IAction, { call, put, take }) {
         yield put({
-          type: 'onSaveConditionBase',
+          type: 'onSaveConditionBase', // 记录条件
           payload: action.payload.condition,
         });
 
@@ -56,7 +54,7 @@ export function createBaseModel(namespace: string) {
           selectType = selectTypeInState,
           pagination = paginationInState,
           match = matchInState,
-          clear = false,
+          clear = false, // 是否清空选中的数据
         } = action.payload;
 
         let sorts = sortsInState || [];
@@ -111,7 +109,7 @@ export function createBaseModel(namespace: string) {
 
         if (clear || selectType !== 'crossPageSelect') {
           yield put({
-            type: 'onUnSelectedRows',
+            type: 'onUnSelectedRows', // 将选中的数据清空
             payload: {},
           });
         }
@@ -161,7 +159,7 @@ export function createBaseModel(namespace: string) {
             type: 'onDelete',
             payload: action.payload,
           });
-
+          // 刷新数据
           yield yield put({
             type: 'onRefreshBase',
             payload: {},
@@ -173,7 +171,7 @@ export function createBaseModel(namespace: string) {
               data: action.payload,
             },
           });
-
+          // 将选中的数据清空
           yield put({
             type: 'onUnSelectedRows',
             payload: {},
@@ -194,6 +192,7 @@ export function createBaseModel(namespace: string) {
           payload: { ...action.payload, match },
         });
 
+        // 关闭编辑框
         yield put({
           type: 'onEditorVisibleChangedBase',
           payload: {
@@ -201,6 +200,7 @@ export function createBaseModel(namespace: string) {
           },
         });
 
+        // 刷新数据
         yield yield put({
           type: 'onRefreshBase',
           payload: {},
@@ -215,6 +215,7 @@ export function createBaseModel(namespace: string) {
         });
       },
 
+      // 刷新数据，一般是删除，修改数据时调用。这里会用原来的数据来调用查询
       *onRefreshBase(action: IAction, { call, put, select }) {
         const {
           pageIndex,
